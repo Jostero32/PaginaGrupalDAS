@@ -1,0 +1,26 @@
+/* ============================================================
+   Contact Page — Styles
+   Paleta: F6F7EB · E94F37 · 393E41 · 3F88C5 · 44BBA4
+   ============================================================ */
+
+/* ── Contact Section with dark background (same as Projects) ──── */
+.contact-section {
+  background: #393E41;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+  padding: 4rem 0;
+}
+
+@media (min-width: 768px) {
+  .contact-section {
+    padding: 6rem 0;
+  }
+}
+
+/* ── Override SectionTitle colors for dark background ──── */
+.contact-section .section-title h2 {
+  color: white;
+}
+
+.contact-section .section-title p {
+  color: rgba(255, 255, 255, 0.8);
+}

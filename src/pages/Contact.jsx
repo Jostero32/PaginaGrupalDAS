@@ -50,6 +50,11 @@ function Contact() {
     if (Object.keys(formErrors).length === 0) {
       setIsSubmitted(true);
       setValues(initialValues);
+      
+      // Ocultar notificación después de 3 segundos
+      setTimeout(() => {
+        setIsSubmitted(false);
+      }, 3000);
     }
   };
 
@@ -61,7 +66,7 @@ function Contact() {
           subtitle="Comparte el contexto de tu necesidad y te responderemos con una propuesta ficticia."
         />
 
-        <div className="grid grid-cols-1 md:grid-cols-[1.3fr_1fr] gap-8">
+        <div className="grid grid-cols-1">
           <Card as="form" onSubmit={handleSubmit} noValidate>
             <div className="grid gap-3">
               <label htmlFor="name" className="font-bold">
@@ -160,53 +165,6 @@ function Contact() {
               </p>
             )}
           </Card>
-
-          <div className="grid gap-6">
-            <Card>
-              <h3>Informacion de contacto</h3>
-              <p className="muted">Correo: contacto@nexussoftware.fake</p>
-              <p className="muted">
-                Ubicacion: Avenida Central 123, Ciudad Demo
-              </p>
-              <p className="muted">Horario: Lun - Vie, 09:00 a 18:00</p>
-            </Card>
-
-            <Card>
-              <h3>Siguenos</h3>
-              <ul className="list-reset grid gap-3">
-                <li>
-                  <a
-                    className="link-inline"
-                    href="#"
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    LinkedIn
-                  </a>
-                </li>
-                <li>
-                  <a
-                    className="link-inline"
-                    href="#"
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    GitHub
-                  </a>
-                </li>
-                <li>
-                  <a
-                    className="link-inline"
-                    href="#"
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    X / Twitter
-                  </a>
-                </li>
-              </ul>
-            </Card>
-          </div>
         </div>
       </div>
     </section>

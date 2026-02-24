@@ -1,36 +1,35 @@
-﻿import { useState } from 'react';
-import Card from '../components/ui/Card';
-import Button from '../components/ui/Button';
-import SectionTitle from '../components/ui/SectionTitle';
-import usePageMeta from '../routes/usePageMeta';
-import './Contact.css';
+﻿import { useState } from "react";
+import Button from "../components/ui/Button";
+import Card from "../components/ui/Card";
+import SectionTitle from "../components/ui/SectionTitle";
+import usePageMeta from "../routes/usePageMeta";
 
 const initialValues = {
-  name: '',
-  email: '',
-  subject: '',
-  message: '',
+  name: "",
+  email: "",
+  subject: "",
+  message: "",
 };
 
 function validate(values) {
   const errors = {};
 
-  if (!values.name.trim()) errors.name = 'El nombre es obligatorio.';
+  if (!values.name.trim()) errors.name = "El nombre es obligatorio.";
   if (!values.email.trim()) {
-    errors.email = 'El correo es obligatorio.';
+    errors.email = "El correo es obligatorio.";
   } else if (!/^\S+@\S+\.\S+$/.test(values.email)) {
-    errors.email = 'Ingresa un correo valido.';
+    errors.email = "Ingresa un correo valido.";
   }
-  if (!values.subject.trim()) errors.subject = 'El asunto es obligatorio.';
-  if (!values.message.trim()) errors.message = 'El mensaje es obligatorio.';
+  if (!values.subject.trim()) errors.subject = "El asunto es obligatorio.";
+  if (!values.message.trim()) errors.message = "El mensaje es obligatorio.";
 
   return errors;
 }
 
 function Contact() {
   usePageMeta(
-    'Contactos',
-    'Formulario de contacto de ejemplo con validacion en cliente e informacion ficticia.'
+    "Contactos",
+    "Formulario de contacto de ejemplo con validacion en cliente e informacion ficticia.",
   );
 
   const [values, setValues] = useState(initialValues);
@@ -55,105 +54,153 @@ function Contact() {
   };
 
   return (
-    <section className='page-section'>
-      <div className='container'>
+    <section className="page-section">
+      <div className="container">
         <SectionTitle
-          title='Contactos'
-          subtitle='Comparte el contexto de tu necesidad y te responderemos con una propuesta ficticia.'
+          title="Contactos"
+          subtitle="Comparte el contexto de tu necesidad y te responderemos con una propuesta ficticia."
         />
 
-        <div className='contact-layout'>
-          <Card as='form' onSubmit={handleSubmit} noValidate>
-            <div className='contact-field'>
-              <label htmlFor='name'>Nombre</label>
+        <div className="grid grid-cols-1 md:grid-cols-[1.3fr_1fr] gap-8">
+          <Card as="form" onSubmit={handleSubmit} noValidate>
+            <div className="grid gap-3">
+              <label htmlFor="name" className="font-bold">
+                Nombre
+              </label>
               <input
-                id='name'
-                name='name'
-                type='text'
+                id="name"
+                name="name"
+                type="text"
                 value={values.name}
                 onChange={handleChange}
                 aria-invalid={Boolean(errors.name)}
                 required
+                className="w-full font-[inherit] border border-[rgba(57,62,65,0.26)] rounded-[var(--radius-sm)] px-3 py-3 bg-white"
               />
-              {errors.name && <span className='contact-error'>{errors.name}</span>}
+              {errors.name && (
+                <span className="text-[#9b2915] text-[0.85rem]">
+                  {errors.name}
+                </span>
+              )}
             </div>
 
-            <div className='contact-field'>
-              <label htmlFor='email'>Email</label>
+            <div className="grid gap-3 mt-6">
+              <label htmlFor="email" className="font-bold">
+                Email
+              </label>
               <input
-                id='email'
-                name='email'
-                type='email'
+                id="email"
+                name="email"
+                type="email"
                 value={values.email}
                 onChange={handleChange}
                 aria-invalid={Boolean(errors.email)}
                 required
+                className="w-full font-[inherit] border border-[rgba(57,62,65,0.26)] rounded-[var(--radius-sm)] px-3 py-3 bg-white"
               />
-              {errors.email && <span className='contact-error'>{errors.email}</span>}
+              {errors.email && (
+                <span className="text-[#9b2915] text-[0.85rem]">
+                  {errors.email}
+                </span>
+              )}
             </div>
 
-            <div className='contact-field'>
-              <label htmlFor='subject'>Asunto</label>
+            <div className="grid gap-3 mt-6">
+              <label htmlFor="subject" className="font-bold">
+                Asunto
+              </label>
               <input
-                id='subject'
-                name='subject'
-                type='text'
+                id="subject"
+                name="subject"
+                type="text"
                 value={values.subject}
                 onChange={handleChange}
                 aria-invalid={Boolean(errors.subject)}
                 required
+                className="w-full font-[inherit] border border-[rgba(57,62,65,0.26)] rounded-[var(--radius-sm)] px-3 py-3 bg-white"
               />
-              {errors.subject && <span className='contact-error'>{errors.subject}</span>}
+              {errors.subject && (
+                <span className="text-[#9b2915] text-[0.85rem]">
+                  {errors.subject}
+                </span>
+              )}
             </div>
 
-            <div className='contact-field'>
-              <label htmlFor='message'>Mensaje</label>
+            <div className="grid gap-3 mt-6">
+              <label htmlFor="message" className="font-bold">
+                Mensaje
+              </label>
               <textarea
-                id='message'
-                name='message'
-                rows='5'
+                id="message"
+                name="message"
+                rows="5"
                 value={values.message}
                 onChange={handleChange}
                 aria-invalid={Boolean(errors.message)}
                 required
+                className="w-full font-[inherit] border border-[rgba(57,62,65,0.26)] rounded-[var(--radius-sm)] px-3 py-3 bg-white"
               />
-              {errors.message && <span className='contact-error'>{errors.message}</span>}
+              {errors.message && (
+                <span className="text-[#9b2915] text-[0.85rem]">
+                  {errors.message}
+                </span>
+              )}
             </div>
 
-            <Button type='submit' variant='accent' size='md'>
+            <Button type="submit" variant="accent" size="md">
               Enviar mensaje
             </Button>
 
             {isSubmitted && (
-              <p className='contact-success' role='status'>
+              <p
+                className="mt-6 p-4 rounded-[var(--radius-sm)] bg-[rgba(68,187,164,0.2)] text-[#1f6f60] font-bold"
+                role="status"
+              >
                 Mensaje enviado correctamente. Te responderemos pronto.
               </p>
             )}
           </Card>
 
-          <div className='contact-side grid'>
+          <div className="grid gap-6">
             <Card>
               <h3>Informacion de contacto</h3>
-              <p className='muted'>Correo: contacto@nexussoftware.fake</p>
-              <p className='muted'>Ubicacion: Avenida Central 123, Ciudad Demo</p>
-              <p className='muted'>Horario: Lun - Vie, 09:00 a 18:00</p>
+              <p className="muted">Correo: contacto@nexussoftware.fake</p>
+              <p className="muted">
+                Ubicacion: Avenida Central 123, Ciudad Demo
+              </p>
+              <p className="muted">Horario: Lun - Vie, 09:00 a 18:00</p>
             </Card>
 
             <Card>
               <h3>Siguenos</h3>
-              <ul className='list-reset contact-social'>
+              <ul className="list-reset grid gap-3">
                 <li>
-                  <a className='link-inline' href='#' target='_blank' rel='noreferrer'>
+                  <a
+                    className="link-inline"
+                    href="#"
+                    target="_blank"
+                    rel="noreferrer"
+                  >
                     LinkedIn
                   </a>
                 </li>
                 <li>
-                  <a className='link-inline' href='#' target='_blank' rel='noreferrer'>
+                  <a
+                    className="link-inline"
+                    href="#"
+                    target="_blank"
+                    rel="noreferrer"
+                  >
                     GitHub
                   </a>
                 </li>
                 <li>
-                  <a className='link-inline' href='#' target='_blank' rel='noreferrer'>
+                  <a
+                    className="link-inline"
+                    href="#"
+                    target="_blank"
+                    rel="noreferrer"
+                  >
                     X / Twitter
                   </a>
                 </li>

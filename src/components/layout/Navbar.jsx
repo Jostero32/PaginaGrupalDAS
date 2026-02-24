@@ -1,6 +1,7 @@
 ﻿import { NavLink } from "react-router-dom";
 import Button from "../ui/Button";
 import "./Navbar.css";
+import logoACRM from "../../assets/logoACRM.jpeg";
 
 const navItems = [
   { label: "Inicio", to: "/" },
@@ -16,10 +17,12 @@ function Navbar() {
     <header className="navbar-wrapper">
       <nav className="navbar container" aria-label="Main navigation">
         <NavLink className="brand" to="/">
-          <span className="brand-mark" aria-hidden="true">
-            GNS
-          </span>
-          <span>Grupo Nexus Software</span>
+          <img 
+            src={logoACRM} 
+            alt="ARCM Solutions Logo" 
+            className="brand-logo" 
+          />
+          <span>ARCM Solutions</span>
         </NavLink>
 
         <ul className="list-reset nav-links">

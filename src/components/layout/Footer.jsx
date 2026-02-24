@@ -6,9 +6,9 @@ function Footer() {
     <footer className='footer'>
       <div className='container footer-content'>
         <div>
-          <h3 className='footer-title'>Grupo Nexus Software</h3>
+          <h3 className='footer-title'>ARCM Solutions</h3>
           <p className='muted'>
-            Soluciones digitales ficticias para equipos reales.
+            Advanced Research & Code Management.
           </p>
         </div>
 
@@ -32,7 +32,7 @@ function Footer() {
       </div>
       <div className='footer-bottom'>
         <div className='container'>
-          <small>Copyright {new Date().getFullYear()} Grupo Nexus Software. All rights reserved.</small>
+          <small>Copyright {new Date().getFullYear()} ARCM Solutions. All rights reserved.</small>
         </div>
       </div>
     </footer>

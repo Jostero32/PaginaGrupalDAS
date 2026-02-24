@@ -1,11 +1,11 @@
-﻿import { Link, useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import Badge from "../components/ui/Badge";
-import { posts } from "../data/posts";
+import { findPostBySlug } from "../data/posts";
 import usePageMeta from "../routes/usePageMeta";
 
 function BlogPost() {
   const { slug } = useParams();
-  const post = posts.find((item) => item.slug === slug);
+  const post = findPostBySlug(slug);
 
   usePageMeta(
     post ? post.title : "Post no encontrado",

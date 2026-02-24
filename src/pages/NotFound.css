@@ -1,0 +1,15 @@
+﻿.not-found {
+  text-align: center;
+}
+
+.not-found-code {
+  margin: 0;
+  font-size: clamp(3rem, 2.2rem + 4vw, 6rem);
+  font-weight: 800;
+  color: var(--color-accent);
+  line-height: 1;
+}
+
+.not-found h1 {
+  margin: var(--space-3) 0 var(--space-2);
+}

@@ -13,6 +13,7 @@ const initialValues = {
   excerpt: "",
   date: todayIso,
   tags: "",
+  cover: "",
   content: "",
 };
 
@@ -78,6 +79,7 @@ function BlogCreate() {
     "Resume la idea principal en una o dos frases claras.";
   const previewDate = values.date || todayIso;
   const previewTags = tags.length > 0 ? tags : ["Estrategia", "Producto"];
+  const previewCover = values.cover.trim();
   const previewContent =
     content.length > 0
       ? content.slice(0, 3)
@@ -112,6 +114,7 @@ function BlogCreate() {
       excerpt: values.excerpt.trim(),
       date: values.date,
       tags: tags.length > 0 ? tags : ["General"],
+      cover: values.cover.trim(),
       content: parsedContent.length > 0 ? parsedContent : [values.content],
     };
 
@@ -218,6 +221,24 @@ function BlogCreate() {
             </div>
 
             <div className="grid gap-3 mt-6">
+              <label htmlFor="cover" className="font-bold">
+                Link de imagen
+              </label>
+              <input
+                id="cover"
+                name="cover"
+                type="url"
+                value={values.cover}
+                onChange={handleChange}
+                className="w-full font-[inherit] border border-[rgba(57,62,65,0.26)] rounded-[var(--radius-sm)] px-3 py-3 bg-white"
+                placeholder="https://images.unsplash.com/..."
+              />
+              <span className="muted text-[0.85rem]">
+                Usa una URL publica para la portada del blog.
+              </span>
+            </div>
+
+            <div className="grid gap-3 mt-6">
               <label htmlFor="content" className="font-bold">
                 Contenido
               </label>
@@ -259,6 +280,18 @@ function BlogCreate() {
             />
             <div className="relative">
               <Badge variant="primary">Vista previa</Badge>
+              {previewCover ? (
+                <img
+                  src={previewCover}
+                  alt="Portada del articulo"
+                  className="mt-5 w-full h-[180px] object-cover rounded-[var(--radius-md)]"
+                />
+              ) : (
+                <div
+                  className="mt-5 placeholder-media h-[180px]"
+                  aria-hidden="true"
+                />
+              )}
               <p className="mt-5 m-0 text-[var(--color-primary)] font-bold text-[0.85rem]">
                 {previewDate}
               </p>

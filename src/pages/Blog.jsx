@@ -36,6 +36,15 @@ function Blog() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {sortedPosts.map((post) => (
               <Card key={post.id}>
+                {post.cover ? (
+                  <img
+                    src={post.cover}
+                    alt={post.title}
+                    className="w-full h-[180px] object-cover rounded-[var(--radius-md)] mb-5"
+                  />
+                ) : (
+                  <div className="placeholder-media mb-5" aria-hidden="true" />
+                )}
                 <p className="m-0 text-[var(--color-primary)] font-bold text-[0.85rem]">
                   {post.date}
                 </p>

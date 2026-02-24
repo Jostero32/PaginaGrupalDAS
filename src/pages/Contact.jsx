@@ -217,57 +217,56 @@ function Contact() {
                   <ul className="list-reset flex gap-4">
                     <li>
                       <a
-                        className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-[#F6F7EB] hover:bg-[#393E41] hover:text-white transition-all duration-200"
-                        href="https://github.com/"
+                        className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-[#F6F7EB] hover:bg-[#393E41] transition-all duration-200 group"
                         target="_blank"
                         rel="noreferrer"
                         title="GitHub"
                       >
-                        <FaGithub size={32} />
+                        <FaGithub size={32} className="text-[#393E41] group-hover:text-white transition-colors duration-200" />
                       </a>
                     </li>
                     <li>
                       <a
-                        className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-[#F6F7EB] hover:bg-[#3F8BC5] hover:text-white transition-all duration-200"
+                        className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-[#F6F7EB] hover:bg-[#3F8BC5] transition-all duration-200 group"
                         href="https://linkedin.com/"
                         target="_blank"
                         rel="noreferrer"
                         title="LinkedIn"
                       >
-                        <FaLinkedin size={32} />
+                        <FaLinkedin size={32} className="text-[#3F8BC5] group-hover:text-white transition-colors duration-200" />
                       </a>
                     </li>
                     <li>
                       <a
-                        className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-[#F6F7EB] hover:bg-[#3F8BC5] hover:text-white transition-all duration-200"
+                        className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-[#F6F7EB] hover:bg-[#3F8BC5] transition-all duration-200 group"
                         href="https://facebook.com/"
                         target="_blank"
                         rel="noreferrer"
                         title="Facebook"
                       >
-                        <FaFacebook size={32} />
+                        <FaFacebook size={32} className="text-[#3F8BC5] group-hover:text-white transition-colors duration-200" />
                       </a>
                     </li>
                     <li>
                       <a
-                        className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-[#F6F7EB] hover:bg-[#E94F37] hover:text-white transition-all duration-200"
+                        className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-[#F6F7EB] hover:bg-[#E94F37] transition-all duration-200 group"
                         href="https://instagram.com/"
                         target="_blank"
                         rel="noreferrer"
                         title="Instagram"
                       >
-                        <FaInstagram size={32} />
+                        <FaInstagram size={32} className="text-[#E94F37] group-hover:text-white transition-colors duration-200" />
                       </a>
                     </li>
                     <li>
                       <a
-                        className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-[#F6F7EB] hover:bg-[#393E41] hover:text-white transition-all duration-200"
+                        className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-[#F6F7EB] hover:bg-[#393E41] transition-all duration-200 group"
                         href="https://x.com/"
                         target="_blank"
                         rel="noreferrer"
                         title="X (Twitter)"
                       >
-                        <FaXTwitter size={32} />
+                        <FaXTwitter size={32} className="text-[#393E41] group-hover:text-white transition-colors duration-200" />
                       </a>
                     </li>
                   </ul>

@@ -24,6 +24,13 @@
   color: var(--color-text);
 }
 
+.brand-logo {
+  width: 48px;
+  height: 48px;
+  border-radius: 8px;
+  object-fit: cover;
+}
+
 .brand-mark {
   width: 36px;
   height: 36px;

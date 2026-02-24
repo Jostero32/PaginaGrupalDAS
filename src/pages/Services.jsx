@@ -7,7 +7,7 @@ import usePageMeta from "../routes/usePageMeta";
 function Services() {
   usePageMeta(
     "Servicios",
-    "Servicios ficticios de desarrollo, modernizacion, consultoria y operaciones para empresas.",
+    "Servicios de desarrollo, modernizacion, consultoria y operaciones para empresas.",
   );
 
   return (
@@ -16,7 +16,7 @@ function Services() {
         <div className="container">
           <SectionTitle
             title="Servicios"
-            subtitle="Catalogo de soluciones para diseno, construccion y evolucion de plataformas digitales."
+            subtitle="Catalogo de soluciones para diseño, construccion y evolucion de plataformas digitales."
           />
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">

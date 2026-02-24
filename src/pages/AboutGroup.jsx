@@ -59,7 +59,7 @@ const processSteps = [
 function AboutGroup() {
   usePageMeta(
     "Nombre del grupo",
-    "Conoce la historia, mision, vision, valores y proceso de Grupo Nexus Software.",
+    "Conoce la historia, mision, vision, valores y proceso de ARCM Solutions.",
   );
 
   return (
@@ -67,7 +67,7 @@ function AboutGroup() {
       <section className="page-section">
         <div className="container">
           <SectionTitle
-            title="Nombre del grupo: Grupo Nexus Software"
+            title="Nombre del grupo: ARCM Solutions"
             subtitle="Equipo ficticio de desarrollo enfocado en soluciones empresariales modernas."
           />
 

@@ -3,7 +3,7 @@
     id: 'svc-1',
     title: 'Desarrollo Web Empresarial',
     description:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer congue sem vitae justo feugiat.',
+      'Creamos plataformas digitales de alto rendimiento diseñadas para soportar operaciones complejas. No solo hacemos sitios web; construimos herramientas que impulsan la eficiencia de tu negocio.',
     features: ['Arquitectura SPA escalable', 'Integracion API segura', 'Pruebas de interfaz automatizadas'],
   },
   {

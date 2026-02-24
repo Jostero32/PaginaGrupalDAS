@@ -11,7 +11,7 @@ import usePageMeta from "../routes/usePageMeta";
 function Home() {
   usePageMeta(
     "Inicio",
-    "Inicio de Grupo Nexus Software. Servicios destacados, proyectos recientes y equipo de ejemplo.",
+    "Inicio de ARCM Solutions. Servicios destacados, proyectos recientes y equipo de ejemplo.",
   );
 
   const featuredServices = services.filter((service) =>
@@ -28,9 +28,7 @@ function Home() {
             Construimos productos digitales empresariales con foco en resultados
           </h1>
           <p className="muted max-w-[700px] m-0">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer
-            volutpat eros vel diam auctor, at sagittis urna posuere. Donec vitae
-            est non augue efficitur volutpat at ut metus.
+            Al ser una empresa dedicada al desarrollo de software, nos enfocamos en soluciones tecnológicas innovadoras y eficientes.
           </p>
           <div className="mt-8 flex flex-wrap gap-4">
             <Button as={Link} to="/contactos" variant="accent" size="lg">
@@ -100,18 +98,32 @@ function Home() {
             subtitle="Perfiles ficticios con enfoque multidisciplinario para ciclos de entrega continuos."
           />
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 justify-items-center">
             {team.map((member) => (
-              <Card key={member.id} className="text-center">
-                <div
-                  className="w-[58px] h-[58px] rounded-full mx-auto bg-[rgba(63,136,197,0.18)] text-[var(--color-primary)] inline-flex items-center justify-center font-bold"
-                  aria-hidden="true"
-                >
-                  {member.name
-                    .split(" ")
-                    .map((chunk) => chunk[0])
-                    .slice(0, 2)
-                    .join("")}
+              <Card key={member.id} className="text-center w-full max-w-[320px]">
+                <div className="relative w-[120px] h-[120px] mx-auto mb-4">
+                  <img
+                    src={member.image}
+                    alt={member.name}
+                    className="w-full h-full rounded-full object-cover border-4 border-[rgba(63,136,197,0.18)]"
+                  />
+                  <a
+                    href={member.github}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="absolute bottom-0 right-0 w-10 h-10 bg-[var(--color-text)] hover:bg-[var(--color-primary)] rounded-full flex items-center justify-center transition-colors duration-200 shadow-lg"
+                    aria-label={`GitHub de ${member.name}`}
+                  >
+                    <svg
+                      width="20"
+                      height="20"
+                      viewBox="0 0 24 24"
+                      fill="white"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
+                    </svg>
+                  </a>
                 </div>
                 <h3 className="my-4 mb-3">{member.name}</h3>
                 <p className="m-0 mb-4 text-[var(--color-primary)] font-bold">

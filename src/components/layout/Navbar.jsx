@@ -19,7 +19,7 @@ function Navbar() {
           <span className='brand-mark' aria-hidden='true'>
             GNS
           </span>
-          <span>Grupo Nexus Software</span>
+          <span>ARCM Solutions</span>
         </NavLink>
 
         <ul className='list-reset nav-links'>

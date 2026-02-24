@@ -4,7 +4,7 @@
     slug: 'arquitectura-frontend-escalable',
     title: 'Arquitectura Frontend Escalable en Equipos Mixtos',
     excerpt:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum euismod sapien vitae metus tempus gravida.',
+      'Creamos plataformas digitales de alto rendimiento diseñadas para soportar operaciones complejas. No solo hacemos sitios web; construimos herramientas que impulsan la eficiencia de tu negocio.',
     date: '2026-01-12',
     tags: ['Frontend', 'Arquitectura', 'React'],
     content: [

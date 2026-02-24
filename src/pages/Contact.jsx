@@ -4,6 +4,7 @@ import Button from "../components/ui/Button";
 import Card from "../components/ui/Card";
 import SectionTitle from "../components/ui/SectionTitle";
 import usePageMeta from "../routes/usePageMeta";
+import "./Contact.css";
 
 const initialValues = {
   name: "",
@@ -60,7 +61,7 @@ function Contact() {
   };
 
   return (
-    <section className="page-section">
+    <section className="contact-section">
       <div className="container">
         <SectionTitle
           title="Contactos"

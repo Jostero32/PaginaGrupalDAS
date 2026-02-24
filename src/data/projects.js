@@ -24,9 +24,9 @@
   },
   {
     id: "pr-11",
-    name: "App Móvil Web y Móviles",
+    name: "Movil Tienda web de segunda mano",
     category: "Mobile",
-    description: "Aplicación móvil desarrollada para proyecto Web y Móviles",
+    description: "Aplicación móvil para la tienda web de segunda mano",
     stack: ["React Native", "JavaScript", "Mobile"],
     demoUrl:
       "https://www.shutterstock.com/image-photo/second-hand-clothes-women-garment-600nw-2661752415.jpg",

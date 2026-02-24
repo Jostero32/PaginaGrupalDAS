@@ -81,21 +81,21 @@ export const faqItems = [
   {
     question: 'Cuanto tarda un proyecto promedio?',
     answer:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer vehicula sem ut risus consequat, a placerat neque euismod.',
+      'La duracion depende del alcance, pero un MVP tipico se entrega entre 6 y 10 semanas. Proyectos mas complejos como plataformas enterprise pueden tomar de 3 a 6 meses, con entregables parciales cada sprint para que puedas validar avances de forma continua.',
   },
   {
     question: 'Trabajan con equipos internos?',
     answer:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi varius neque ac nibh ultrices, at rhoncus nunc porta.',
+      'Si, nos integramos con tu equipo de desarrollo como una extension. Podemos colaborar bajo modalidad de staff augmentation o asumir modulos completos de forma autonoma, adaptandonos a tus procesos, herramientas y metodologias existentes.',
   },
   {
     question: 'Ofrecen soporte despues del lanzamiento?',
     answer:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque gravida libero sed libero luctus feugiat.',
+      'Ofrecemos planes de soporte y mantenimiento post-lanzamiento que incluyen correccion de bugs, monitoreo de rendimiento, actualizaciones de seguridad y mejoras incrementales. Tambien proporcionamos documentacion tecnica y capacitacion para tu equipo.',
   },
   {
     question: 'Como definen alcance y costos?',
     answer:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis dictum nisi vel velit feugiat, eget vestibulum justo luctus.',
+      'Comenzamos con una fase de discovery gratuita donde analizamos tus necesidades. A partir de ahi, presentamos una propuesta detallada con alcance, cronograma y presupuesto. Trabajamos con tarifas fijas por proyecto o por sprint, segun lo que mejor se adapte a tu caso.',
   },
 ];

@@ -330,6 +330,12 @@ function Services() {
     "Servicios de desarrollo, modernizacion, consultoria y operaciones para empresas.",
   );
 
+  // Toggle body class for transparent nav overlay
+  useEffect(() => {
+    document.body.classList.add("svc-page");
+    return () => document.body.classList.remove("svc-page");
+  }, []);
+
   const [openFaq, setOpenFaq] = useState(0);
   const toggleFaq = (i) => setOpenFaq(openFaq === i ? -1 : i);
 
@@ -568,6 +574,10 @@ function Services() {
       <section className="svc-faq-section">
         <div className="svc-container">
           <div className="svc-faq-header">
+            <div className="svc-section-label">
+              <span className="svc-section-label-dot" />
+              <span className="svc-section-label-text">FAQ</span>
+            </div>
             <h2>Preguntas frecuentes</h2>
             <p>Respuestas rapidas sobre tiempos, colaboracion y soporte.</p>
           </div>

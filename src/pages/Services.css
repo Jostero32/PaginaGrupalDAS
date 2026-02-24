@@ -5,6 +5,36 @@
 
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&display=swap');
 
+/* ── Nav overlay (only on services page) ────────────────────── */
+body.svc-page .navbar-wrapper {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  background: rgba(246, 247, 235, 0.94);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(57, 62, 65, 0.1);
+}
+
+body.svc-page .navbar-wrapper .brand,
+body.svc-page .navbar-wrapper .nav-link {
+  color: #393E41;
+}
+
+body.svc-page .navbar-wrapper .nav-link:hover {
+  color: #3F88C5;
+}
+
+body.svc-page .navbar-wrapper .nav-link-active {
+  color: #3F88C5;
+  border-color: #3F88C5;
+}
+
+body.svc-page .navbar-wrapper .brand-mark {
+  background: #3F88C5;
+}
+
 /* ── Animations ─────────────────────────────────────────────── */
 @keyframes svc-slideUp {
   from {
@@ -82,7 +112,7 @@
   align-items: center;
   position: relative;
   overflow: hidden;
-  padding: 120px 5% 80px;
+  padding: 80px 5% 80px;
 }
 
 .svc-hero::before {
@@ -750,7 +780,7 @@
 
 /* ── FAQ Section ────────────────────────────────────────────── */
 .svc-faq-section {
-  background: #F6F7EB;
+  background: #393E41;
   padding: 100px 5%;
   position: relative;
 }
@@ -765,11 +795,20 @@
   margin-bottom: 50px;
 }
 
+.svc-faq-header .svc-section-label {
+  background: rgba(246, 247, 235, 0.06);
+  border-color: rgba(246, 247, 235, 0.12);
+}
+
+.svc-faq-header .svc-section-label-text {
+  color: #F6F7EB;
+}
+
 .svc-faq-header h2 {
   font-family: 'Inter', sans-serif;
   font-weight: 800;
   font-size: clamp(28px, 4vw, 42px);
-  color: #393E41;
+  color: #F6F7EB;
   letter-spacing: -0.5px;
   margin-bottom: 12px;
 }
@@ -777,7 +816,7 @@
 .svc-faq-header p {
   font-family: 'DM Sans', sans-serif;
   font-size: 16px;
-  color: #393E41aa;
+  color: #F6F7EBaa;
   max-width: 440px;
   margin: 0 auto;
   line-height: 1.6;
@@ -786,25 +825,29 @@
 .svc-faq-list {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 14px;
 }
 
 .svc-faq-item {
-  background: #fff;
-  border: 1px solid rgba(57, 62, 65, 0.08);
+  background: rgba(246, 247, 235, 0.04);
+  border: 1px solid rgba(246, 247, 235, 0.08);
+  border-left: 3px solid transparent;
   border-radius: 16px;
   overflow: hidden;
-  transition: border-color 0.3s, box-shadow 0.3s;
+  transition: all 0.3s ease;
 }
 
 .svc-faq-item:hover {
-  border-color: rgba(63, 136, 197, 0.2);
-  box-shadow: 0 4px 20px rgba(57, 62, 65, 0.06);
+  border-color: rgba(246, 247, 235, 0.12);
+  border-left-color: #3F88C5;
+  background: rgba(246, 247, 235, 0.06);
 }
 
 .svc-faq-item.open {
-  border-color: rgba(63, 136, 197, 0.3);
-  box-shadow: 0 8px 30px rgba(63, 136, 197, 0.08);
+  border-color: rgba(246, 247, 235, 0.15);
+  border-left-color: #44BBA4;
+  background: rgba(246, 247, 235, 0.07);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
 }
 
 .svc-faq-trigger {
@@ -814,7 +857,7 @@
   align-items: center;
   border: none;
   background: transparent;
-  color: #393E41;
+  color: #F6F7EB;
   text-align: left;
   padding: 22px 28px;
   font-family: 'Inter', sans-serif;
@@ -826,14 +869,15 @@
 }
 
 .svc-faq-trigger:hover {
-  color: #3F88C5;
+  color: #44BBA4;
 }
 
 .svc-faq-icon {
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  background: rgba(63, 136, 197, 0.08);
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+  background: rgba(246, 247, 235, 0.06);
+  border: 1px solid rgba(246, 247, 235, 0.1);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -842,7 +886,8 @@
 }
 
 .svc-faq-item.open .svc-faq-icon {
-  background: #3F88C5;
+  background: #44BBA4;
+  border-color: #44BBA4;
   transform: rotate(45deg);
 }
 
@@ -853,7 +898,7 @@
 }
 
 .svc-faq-item.open .svc-faq-icon svg {
-  color: #fff;
+  color: #393E41;
 }
 
 .svc-faq-panel {
@@ -868,11 +913,14 @@
 
 .svc-faq-answer {
   margin: 0;
-  padding: 0 28px 22px;
+  padding: 0 28px 24px;
   font-family: 'DM Sans', sans-serif;
   font-size: 15px;
-  color: #393E41aa;
+  color: #F6F7EBaa;
   line-height: 1.7;
+  border-top: 1px solid rgba(246, 247, 235, 0.06);
+  padding-top: 16px;
+  margin-top: 4px;
 }
 
 /* ── Responsive ─────────────────────────────────────────────── */

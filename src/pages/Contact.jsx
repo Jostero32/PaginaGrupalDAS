@@ -66,7 +66,7 @@ function Contact() {
           subtitle="Comparte el contexto de tu necesidad y te responderemos con una propuesta ficticia."
         />
 
-        <div className="grid grid-cols-1">
+        <div className="grid grid-cols-1 md:grid-cols-[1.3fr_1fr] gap-8">
           <Card as="form" onSubmit={handleSubmit} noValidate>
             <div className="grid gap-3">
               <label htmlFor="name" className="font-bold">
@@ -165,6 +165,73 @@ function Contact() {
               </p>
             )}
           </Card>
+
+          <div className="grid gap-6">
+            <Card>
+              <div className="mb-6 pb-6 border-b border-[rgba(57,62,65,0.1)]">
+                <h3 className="font-bold text-2xl text-[#1f2937]">ARCM Solutions</h3>
+                <p className="text-[0.95rem] text-[rgba(57,62,65,0.6)] mt-1">Soluciones integrales de software</p>
+              </div>
+              
+              <div className="grid gap-5">
+                <div className="flex gap-3">
+                  <span className="text-xl">📧</span>
+                  <div>
+                    <p className="text-[0.75rem] text-[rgba(57,62,65,0.6)] font-semibold uppercase tracking-wide mb-1">Correo Electrónico</p>
+                    <a href="mailto:contacto@arcmsolutions.com" className="text-[#0f766e] hover:text-[#1f6f60] font-semibold text-[0.95rem] transition-colors">
+                      contacto@arcmsolutions.com
+                    </a>
+                  </div>
+                </div>
+
+                <div className="flex gap-3">
+                  <span className="text-xl">📍</span>
+                  <div>
+                    <p className="text-[0.75rem] text-[rgba(57,62,65,0.6)] font-semibold uppercase tracking-wide mb-1">Ubicación</p>
+                    <p className="text-[0.95rem] text-[#374151] font-medium">Calle Principal 456</p>
+                    <p className="text-[0.95rem] text-[rgba(57,62,65,0.7)]">Ciudad, País</p>
+                  </div>
+                </div>
+
+                <div className="flex gap-3">
+                  <span className="text-xl">🕐</span>
+                  <div>
+                    <p className="text-[0.75rem] text-[rgba(57,62,65,0.6)] font-semibold uppercase tracking-wide mb-1">Horario de Atención</p>
+                    <p className="text-[0.95rem] text-[#374151] font-medium">Lun - Vie: 09:00 - 18:00</p>
+                    <p className="text-[0.95rem] text-[rgba(57,62,65,0.7)]">Sab - Dom: Cerrado</p>
+                  </div>
+                </div>
+
+                <div className="pt-2">
+                  <p className="text-[0.75rem] text-[rgba(57,62,65,0.6)] font-semibold uppercase tracking-wide mb-3">Síguenos</p>
+                  <ul className="list-reset flex gap-4">
+                    <li>
+                      <a
+                        className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-[#f3f4f6] text-[#374151] hover:bg-[#0f766e] hover:text-white font-bold transition-all duration-200 text-sm"
+                        href="https://github.com/arcmsolutions"
+                        target="_blank"
+                        rel="noreferrer"
+                        title="GitHub"
+                      >
+                        GH
+                      </a>
+                    </li>
+                    <li>
+                      <a
+                        className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-[#f3f4f6] text-[#374151] hover:bg-[#0f766e] hover:text-white font-bold transition-all duration-200 text-sm"
+                        href="https://linkedin.com/company/arcmsolutions"
+                        target="_blank"
+                        rel="noreferrer"
+                        title="LinkedIn"
+                      >
+                        LI
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </Card>
+          </div>
         </div>
       </div>
     </section>

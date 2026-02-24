@@ -4,7 +4,7 @@
     name: 'Edison Alejandro Andrade Ocaña',
     role: 'Lead Frontend Developer',
     bio: 'Especialista en arquitecturas modernas de interfaces. Enfocado en la creación de experiencias de usuario fluidas, escalables y con un rendimiento optimizado bajo estándares de Core Web Vitals.',
-    image: '/src/assets/img/Alejandro.png',
+    image: '/src/assets/Alejandro.png',
     github: 'https://github.com/ANDRADE8754',
   },
   {
@@ -12,7 +12,7 @@
     name: 'Kevin Andres Carrasco Paredes',
     role: 'Backend Architect',
     bio: 'Arquitecto de sistemas distribuidos con enfoque en microservicios. Experto en el diseño de bases de datos de alta disponibilidad y en la construcción de APIs robustas y seguras para entornos empresariales.',
-    image: '/src/assets/img/kevin.jpeg',
+    image: '/src/assets/kevin.jpeg',
     github: 'https://github.com/Jostero32',
   },
   {
@@ -20,7 +20,7 @@
     name: 'Elvis Sebastian Flores Tacuaman',
     role: 'UI/UX & Product Designer',
     bio: 'Apasionado por transformar problemas complejos en interfaces intuitivas. Su enfoque combina el pensamiento de diseño (Design Thinking) con la viabilidad técnica para entregar productos visualmente impactantes.',
-    image: '/src/assets/img/elvis.jpeg',
+    image: '/src/assets/elvis.jpeg',
     github: 'https://github.com/elvis0007',
   },
   {
@@ -28,7 +28,7 @@
     name: 'Juan Pablo López Ramos',
     role: 'Cloud & Infrastructure Engineer',
     bio: 'Especialista en soluciones de nube y automatización. Implementa infraestructuras resilientes que garantizan la continuidad del negocio mediante el uso de contenedores y orquestación avanzada.',
-    image: '/src/assets/img/juan.jpeg',
+    image: '/src/assets/juan.jpeg',
     github: 'https://github.com/Juanlpa',
   },
   {
@@ -36,7 +36,7 @@
     name: 'Jonathan Israel Lozada López',
     role: 'DevOps & SRE Specialist',
     bio: 'Experto en la cultura DevOps, enfocado en la fiabilidad del sitio y la integración continua. Su meta es reducir el tiempo de despliegue manteniendo los más altos niveles de calidad y observabilidad.',
-    image: '/src/assets/img/Jonathan.jpeg',
+    image: '/src/assets/Jonathan.jpeg',
     github: 'https://github.com/3lJonas',
   },
   {
@@ -44,7 +44,7 @@
     name: 'Marco Giovanni Serrano Nuela',
     role: 'Fullstack Engineer',
     bio: 'Ingeniero versátil con dominio de todo el ciclo de vida del desarrollo. Capaz de conectar las necesidades del usuario final con soluciones técnicas integrales tanto en el cliente como en el servidor.',
-    image: '/src/assets/img/Marco.png',
+    image: '/src/assets/Marco.png',
     github: 'https://github.com/Reclax',
   },
 ];

@@ -2,48 +2,80 @@
   {
     id: 'svc-1',
     title: 'Desarrollo Web Empresarial',
+    tag: 'Web',
+    color: '#3F88C5',
+    size: 'large',
     description:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer congue sem vitae justo feugiat.',
+      'Paginas y plataformas a medida con enfoque en escalabilidad, rendimiento y seguridad empresarial.',
     features: ['Arquitectura SPA escalable', 'Integracion API segura', 'Pruebas de interfaz automatizadas'],
   },
   {
     id: 'svc-2',
     title: 'Aplicaciones Mobile',
+    tag: 'Mobile',
+    color: '#44BBA4',
+    size: 'medium',
     description:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. In posuere, purus quis aliquet vulputate.',
+      'Apps nativas y multiplataforma con despliegue en stores y soporte post-lanzamiento continuo.',
     features: ['UI adaptable iOS y Android', 'Publicacion asistida en stores', 'Analitica de uso integrada'],
   },
   {
     id: 'svc-3',
     title: 'Modernizacion Frontend',
+    tag: 'Frontend',
+    color: '#E94F37',
+    size: 'medium',
     description:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed eget mi vitae neque ultrices dictum.',
+      'Interfaces modernas, accesibles y ultra-rapidas con frameworks de ultima generacion.',
     features: ['Migracion a React moderno', 'Mejora de performance Core Web Vitals', 'Diseno de componentes reutilizables'],
   },
   {
     id: 'svc-4',
     title: 'Backoffice y Paneles',
+    tag: 'Backoffice',
+    color: '#44BBA4',
+    size: 'large',
     description:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec laoreet volutpat diam, vitae imperdiet augue.',
+      'Paneles administrativos robustos con indicadores en tiempo real, permisos granulares y exportaciones.',
     features: ['Roles y permisos granulares', 'Tableros con indicadores en tiempo real', 'Exportaciones PDF y CSV'],
   },
   {
     id: 'svc-5',
     title: 'DevOps y Observabilidad',
+    tag: 'DevOps',
+    color: '#3F88C5',
+    size: 'medium',
     description:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas lobortis ligula non ante ultricies interdum.',
+      'Pipelines CI/CD, monitoreo de logs y metricas, e infraestructura reproducible como codigo.',
     features: ['CI/CD con despliegues controlados', 'Monitoreo de logs y metricas', 'Infraestructura reproducible'],
   },
   {
     id: 'svc-6',
     title: 'Consultoria de Producto Digital',
+    tag: 'Consulting',
+    color: '#E94F37',
+    size: 'medium',
     description:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam id ipsum at sem posuere elementum.',
+      'Acompanamiento estrategico en transformacion digital, seleccion de stack y roadmap de producto.',
     features: ['Discovery y roadmap', 'Priorizacion por impacto', 'Acompanamiento con equipo mixto'],
   },
 ];
 
 export const featuredServiceIds = ['svc-1', 'svc-3', 'svc-5'];
+
+export const STATS = [
+  { value: '120+', label: 'Proyectos entregados' },
+  { value: '98%', label: 'Satisfaccion del cliente' },
+  { value: '8', label: 'Anos de experiencia' },
+  { value: '35+', label: 'Expertos en el equipo' },
+];
+
+export const PROCESS_STEPS = [
+  { step: '01', title: 'Discovery', desc: 'Entendemos tu negocio, usuarios y objetivos en profundidad.' },
+  { step: '02', title: 'Diseno & Arquitectura', desc: 'Definimos la solucion tecnica y visual mas adecuada.' },
+  { step: '03', title: 'Desarrollo Agil', desc: 'Sprints iterativos con entregables reales cada semana.' },
+  { step: '04', title: 'Lanzamiento & Escala', desc: 'Deploy, monitoreo continuo y soporte post-lanzamiento.' },
+];
 
 export const faqItems = [
   {

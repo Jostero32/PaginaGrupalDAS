@@ -65,12 +65,12 @@ function Projects() {
 
             {/* Title */}
             <h1 className="text-5xl md:text-6xl lg:text-7xl font-extrabold mb-6 leading-tight">
-              Mis <span className="text-[#3F88C5]">Proyectos</span>
+              Nuestros <span className="text-[#3F88C5]">Proyectos</span>
             </h1>
 
             {/* Description */}
             <p className="text-lg md:text-xl text-white/80 max-w-2xl leading-relaxed">
-              Explora mi colección de proyectos de desarrollo de software. Desde
+              Explora nuestra colección de proyectos de desarrollo de software. Desde
               aplicaciones web hasta soluciones backend, cada proyecto
               representa un desafío único y aprendizajes valiosos.
             </p>
@@ -221,9 +221,23 @@ function Projects() {
                   className="bg-white rounded-xl shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden group border border-[#393E41]/5"
                 >
                   {/* Project Image/Placeholder */}
-                  <div className="h-48 bg-gradient-to-br from-[#3F88C5]/20 to-[#44BBA4]/20 relative overflow-hidden">
-                    <div className="absolute inset-0 bg-gradient-to-br from-[#3F88C5] to-[#44BBA4] opacity-0 group-hover:opacity-10 transition-opacity duration-300" />
-                    <div className="absolute bottom-4 left-4 right-4 flex items-center justify-between">
+                  <div className="h-48 relative overflow-hidden bg-gradient-to-br from-[#3F88C5]/20 to-[#44BBA4]/20">
+                    {project.demoUrl && project.demoUrl !== "#" ? (
+                      <>
+                        <img
+                          src={project.demoUrl}
+                          alt={project.name}
+                          className="w-full h-full object-cover"
+                          onError={(e) => {
+                            e.target.style.display = "none";
+                          }}
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
+                      </>
+                    ) : (
+                      <div className="absolute inset-0 bg-gradient-to-br from-[#3F88C5] to-[#44BBA4] opacity-0 group-hover:opacity-10 transition-opacity duration-300" />
+                    )}
+                    <div className="absolute bottom-4 left-4 right-4 flex items-center justify-between z-10">
                       <span className="bg-[#E94F37] text-white text-xs font-bold px-3 py-1.5 rounded-full shadow-lg">
                         {project.category}
                       </span>
@@ -259,22 +273,14 @@ function Projects() {
                     </div>
 
                     {/* Action Buttons */}
-                    <div className="flex gap-3 pt-4 border-t border-[#393E41]/10">
-                      <a
-                        href={project.demoUrl}
-                        target="_blank"
-                        rel="noreferrer"
-                        className="flex-1 text-center px-4 py-2.5 bg-[#44BBA4] text-white font-semibold rounded-lg hover:bg-[#44BBA4]/90 transition-colors shadow-sm hover:shadow-md"
-                      >
-                        Ver Demo
-                      </a>
+                    <div className="pt-4 border-t border-[#393E41]/10">
                       <a
                         href={project.repoUrl}
                         target="_blank"
                         rel="noreferrer"
-                        className="flex-1 text-center px-4 py-2.5 bg-[#E94F37] text-white font-semibold rounded-lg hover:bg-[#E94F37]/90 transition-colors shadow-sm hover:shadow-md"
+                        className="block text-center px-4 py-2.5 bg-[#E94F37]/70 text-white font-semibold rounded-lg hover:bg-[#E94F37] transition-colors shadow-sm hover:shadow-md"
                       >
-                        Código
+                        Ver Código
                       </a>
                     </div>
                   </div>

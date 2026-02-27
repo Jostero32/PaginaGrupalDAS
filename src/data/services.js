@@ -6,7 +6,7 @@
     color: '#3F88C5',
     size: 'large',
     description:
-      'Paginas y plataformas a medida con enfoque en escalabilidad, rendimiento y seguridad empresarial.',
+      'Creamos plataformas digitales de alto rendimiento diseñadas para soportar operaciones complejas. No solo hacemos sitios web; construimos herramientas que impulsan la eficiencia de tu negocio.',
     features: ['Arquitectura SPA escalable', 'Integracion API segura', 'Pruebas de interfaz automatizadas'],
   },
   {

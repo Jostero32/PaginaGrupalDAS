@@ -1,4 +1,4 @@
-﻿export const posts = [
+const DEFAULT_POSTS = [
   {
     id: 'post-1',
     slug: 'arquitectura-frontend-escalable',
@@ -76,83 +76,73 @@
       'Prioriza observabilidad antes de optimizar performance.',
       'Mide el costo de revertir antes de tomar una decision arquitectonica.',
     ],
-  },
-  {
-    id: 'post-4',
-    slug: 'automatizacion-cicd-sin-dolor',
-    title: 'Automatizacion CI/CD sin Dolor Operativo',
-    excerpt:
-      'Pipelines cortos, feedback rapido y lanzamientos seguros sin secuestrar al equipo en guardias eternas.',
-    date: '2025-11-18',
-    readingTime: '5 min',
-    author: 'Diego Duarte',
-    role: 'DevOps',
-    category: 'DevOps',
-    tags: ['DevOps', 'CI/CD', 'Calidad'],
-    cover:
-      'https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1200&q=80',
-    content: [
-      'Dividimos el pipeline en stages cortos con limites de tiempo claros. Si un paso supera 8 minutos, lo fragmentamos o lo movemos a un chequeo asincrono.',
-      'Trunk-based con feature flags nos permite deployar varias veces al dia. Los flags tienen fecha de vencimiento y dueño asignado para evitar cementerios.',
-      'Automatizamos checks de seguridad (SCA y SAST) en paralelo al build para no impactar el time-to-merge.',
-      'Los canary releases con health checks de negocio redujeron incidentes en produccion y bajaron el MTTR a menos de 20 minutos.',
-    ],
-    keyTakeaways: [
-      'Mantiene pipelines por debajo de 10 minutos con stages paralelos.',
-      'Usa feature flags con fecha de vencimiento y dueño claro.',
-      'Incluye canaries con checks de negocio para detectar regresiones rapido.',
-    ],
-  },
-  {
-    id: 'post-5',
-    slug: 'testing-pragmatico-en-spa',
-    title: 'Testing Pragmatico en Aplicaciones SPA',
-    excerpt:
-      'Un stack de pruebas liviano que cubre regresiones criticas sin frenar la entrega continua.',
-    date: '2025-10-07',
-    readingTime: '6 min',
-    author: 'Sofia Mendez',
-    role: 'QA Engineer',
-    category: 'Calidad',
-    tags: ['QA', 'Testing', 'Frontend'],
-    cover:
-      'https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=1200&q=80',
-    content: [
-      'Los contratos de API se validan con tests de esquema para que los mocks no se desalineen. Esto previene errores silenciosos en ambientes intermedios.',
-      'Los componentes criticos tienen pruebas de interaccion con Testing Library y validacion visual automatica en PRs.',
-      'Evitamos duplicar cobertura: smoke e2e solo sobre user journeys de pago y alta frecuencia, mientras la logica compleja vive en pruebas unitarias rapidas.',
-      'La matriz de navegadores se reduce a donde realmente convertimos. Los reportes se comparten en el mismo dashboard que producto y soporte.',
-    ],
-    keyTakeaways: [
-      'Valida contratos de API con esquema para evitar mocks obsoletos.',
-      'Combina pruebas de interaccion y visuales en los componentes core.',
-      'Reserva e2e para flujos de negocio de alta frecuencia.',
-    ],
-  },
-  {
-    id: 'post-6',
-    slug: 'gestion-tecnica-para-equipos-hibridos',
-    title: 'Gestion Tecnica para Equipos Hibridos',
-    excerpt:
-      'Rituales ligeros y acuerdos explicitos para equipos distribuidos que buscan ritmo sin perder calidad.',
-    date: '2025-09-15',
-    readingTime: '5 min',
-    author: 'Camila Paredes',
-    role: 'Engineering Manager',
-    category: 'Management',
-    tags: ['Management', 'Equipos', 'Procesos'],
-    cover:
-      'https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&w=1200&q=80',
-    content: [
-      'Establecimos acuerdos de comunicacion que priorizan asincronia: decisiones quedan en un doc corto con contexto y dueños claros.',
-      'Las dailies se reemplazaron por check-ins escritos dos veces por semana y una reunion tecnica de 25 minutos focalizada en bloqueos.',
-      'Rotar ownership cada mes reduce silos y expone a todos a distintas partes del sistema. Cada rotacion viene con un buddy para transferir contexto.',
-      'El bienestar se mide junto con la entrega: encuestas cortas quincenales y seguimiento de tiempo en guardias para prevenir burnout.',
-    ],
-    keyTakeaways: [
-      'Documenta decisiones en un formato liviano y accesible.',
-      'Prefiere check-ins asincronos y reuniones cortas focalizadas.',
-      'Rota ownership con buddy system para reducir silos y burnout.',
-    ],
-  },
+  }
 ];
+
+const STORAGE_KEY = 'nexus_blog_posts';
+const isBrowser = typeof window !== 'undefined';
+
+const sanitizePosts = (value) => {
+  if (!Array.isArray(value)) return null;
+
+  const sanitized = value
+    .map((post) => {
+      if (
+        !post ||
+        typeof post !== 'object' ||
+        typeof post.slug !== 'string' ||
+        typeof post.title !== 'string' ||
+        typeof post.excerpt !== 'string' ||
+        typeof post.date !== 'string' ||
+        !Array.isArray(post.content)
+      ) {
+        return null;
+      }
+
+      return {
+        ...post,
+        id: typeof post.id === 'string' ? post.id : `post-${post.slug}`,
+        tags: Array.isArray(post.tags) ? post.tags : [],
+      };
+    })
+    .filter(Boolean);
+
+  return sanitized.length > 0 ? sanitized : null;
+};
+
+const readPosts = () => {
+  if (!isBrowser) return DEFAULT_POSTS;
+
+  try {
+    const raw = window.localStorage.getItem(STORAGE_KEY);
+    if (!raw) return DEFAULT_POSTS;
+    const parsed = JSON.parse(raw);
+    return sanitizePosts(parsed) ?? DEFAULT_POSTS;
+  } catch (error) {
+    return DEFAULT_POSTS;
+  }
+};
+
+const writePosts = (posts) => {
+  if (!isBrowser) return;
+
+  try {
+    window.localStorage.setItem(STORAGE_KEY, JSON.stringify(posts));
+  } catch (error) {
+    // Ignore storage errors (private mode or quota limits).
+  }
+};
+
+export const getPosts = () => readPosts();
+
+export const addPost = (post) => {
+  const current = readPosts();
+  const updated = [post, ...current];
+  writePosts(updated);
+  return updated;
+};
+
+export const findPostBySlug = (slug) =>
+  readPosts().find((post) => post.slug === slug);
+
+export const posts = DEFAULT_POSTS;

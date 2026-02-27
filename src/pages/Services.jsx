@@ -394,7 +394,7 @@ function Services() {
           {/* Breadcrumb */}
           <div className="svc-hero-breadcrumb" style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "32px" }}>
             <span style={{ color: "#F6F7EB60", fontSize: "13px", fontFamily: "'DM Sans', sans-serif" }}>
-              Grupo Nexus
+              
             </span>
             <span style={{ color: "#3F88C5" }}>›</span>
             <span className="svc-breadcrumb-tag">Servicios</span>
@@ -409,7 +409,7 @@ function Services() {
 
           <div className="svc-hero-desc">
             <p>
-              En <strong style={{ color: "#F6F7EB" }}>Grupo Nexus</strong> construimos tecnologia de alto impacto.
+              En <strong style={{ color: "#F6F7EB" }}>ARCM Solutions</strong> construimos tecnologia de alto impacto.
               Desde MVP hasta sistemas enterprise, nuestro equipo cubre cada capa de tu stack digital.
             </p>
           </div>

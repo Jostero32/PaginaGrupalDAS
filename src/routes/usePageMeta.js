@@ -1,6 +1,6 @@
 ﻿import { useEffect } from 'react';
 
-const SITE_NAME = 'Grupo Nexus Software';
+const SITE_NAME = 'ARCM Solutions';
 
 function usePageMeta(title, description) {
   useEffect(() => {

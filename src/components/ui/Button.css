@@ -1,6 +1,9 @@
-﻿.btn {
+﻿@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&display=swap');
+
+.btn {
   border: none;
   border-radius: var(--radius-sm);
+  font-family: 'Inter', sans-serif;
   font-weight: 700;
   cursor: pointer;
   text-decoration: none;
@@ -8,6 +11,7 @@
   align-items: center;
   justify-content: center;
   gap: var(--space-2);
+  letter-spacing: 0.02em;
   transition: transform var(--transition-fast), box-shadow var(--transition-fast), background-color var(--transition-fast);
 }
 

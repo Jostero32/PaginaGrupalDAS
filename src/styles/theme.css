@@ -4,10 +4,15 @@
   --color-text: #393E41;
   --color-primary: #3F88C5;
   --color-secondary: #44BBA4;
+  --color-surface: #FFFFFF;
+
+  --font-heading: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-body: 'DM Sans', system-ui, -apple-system, sans-serif;
 
   --radius-sm: 0.5rem;
   --radius-md: 0.875rem;
   --radius-lg: 1.25rem;
+  --radius-xl: 1.5rem;
 
   --space-1: 0.25rem;
   --space-2: 0.5rem;
@@ -20,7 +25,10 @@
 
   --shadow-sm: 0 6px 16px rgba(57, 62, 65, 0.08);
   --shadow-md: 0 12px 28px rgba(57, 62, 65, 0.12);
+  --shadow-lg: 0 20px 40px rgba(57, 62, 65, 0.16);
+  --shadow-glow: 0 0 40px rgba(63, 136, 197, 0.15);
 
   --container-width: 1160px;
   --transition-fast: 160ms ease;
+  --transition-smooth: 300ms cubic-bezier(0.4, 0, 0.2, 1);
 }

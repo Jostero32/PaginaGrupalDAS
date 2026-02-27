@@ -579,7 +579,7 @@ body.svc-page .navbar-wrapper .brand-mark {
   transition: background 0.3s;
 }
 
-/* Card CTA */
+/* Card CTA — now a button */
 .svc-card-cta {
   margin-top: 8px;
   display: flex;
@@ -590,6 +590,10 @@ body.svc-page .navbar-wrapper .brand-mark {
   font-weight: 600;
   transition: all 0.3s ease;
   opacity: 0.7;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
 }
 
 .svc-card:hover .svc-card-cta {
@@ -923,6 +927,220 @@ body.svc-page .navbar-wrapper .brand-mark {
   margin-top: 4px;
 }
 
+/* ══════════════════════════════════════════════
+   SERVICE DETAIL MODAL / POPUP
+   ══════════════════════════════════════════════ */
+
+@keyframes svc-modal-fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes svc-modal-slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px) scale(0.97);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.svc-modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background: rgba(57, 62, 65, 0.6);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  animation: svc-modal-fadeIn 0.25s ease forwards;
+}
+
+.svc-modal {
+  background: #fff;
+  border-radius: 20px;
+  max-width: 540px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  padding: 40px;
+  position: relative;
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.25);
+  animation: svc-modal-slideUp 0.35s ease forwards;
+}
+
+.svc-modal-close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  width: 36px;
+  height: 36px;
+  border: none;
+  background: rgba(57, 62, 65, 0.06);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  color: #393E41;
+}
+
+.svc-modal-close:hover {
+  background: rgba(233, 79, 55, 0.1);
+  color: #E94F37;
+}
+
+.svc-modal-close svg {
+  width: 18px;
+  height: 18px;
+}
+
+.svc-modal-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.svc-modal-icon {
+  width: 56px;
+  height: 56px;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.svc-modal-icon svg {
+  width: 32px;
+  height: 32px;
+}
+
+.svc-modal-tag {
+  font-family: 'Inter', sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  display: block;
+  margin-bottom: 4px;
+}
+
+.svc-modal-title {
+  font-family: 'Inter', sans-serif;
+  font-weight: 800;
+  font-size: 1.4rem;
+  color: #393E41;
+  margin: 0;
+  line-height: 1.25;
+  letter-spacing: -0.5px;
+}
+
+.svc-modal-desc {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.95rem;
+  color: rgba(57, 62, 65, 0.8);
+  line-height: 1.7;
+  margin: 0 0 28px;
+}
+
+.svc-modal-features-title {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: rgba(57, 62, 65, 0.5);
+  margin-bottom: 14px;
+}
+
+.svc-modal-features {
+  list-style: none;
+  margin: 0 0 32px;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.svc-modal-features li {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.9rem;
+  color: #393E41;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 500;
+}
+
+.svc-modal-feature-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.svc-modal-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding-top: 24px;
+  border-top: 1px solid rgba(57, 62, 65, 0.08);
+}
+
+.svc-modal-btn-primary {
+  background: #E94F37;
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  padding: 14px 24px;
+  font-family: 'Inter', sans-serif;
+  font-weight: 700;
+  font-size: 15px;
+  cursor: pointer;
+  transition: all 0.3s;
+  text-align: center;
+  box-shadow: 0 6px 20px rgba(233, 79, 55, 0.3);
+}
+
+.svc-modal-btn-primary:hover {
+  background: #d13f25;
+  transform: translateY(-2px);
+  box-shadow: 0 10px 30px rgba(233, 79, 55, 0.4);
+}
+
+.svc-modal-btn-secondary {
+  background: transparent;
+  color: rgba(57, 62, 65, 0.6);
+  border: 1px solid rgba(57, 62, 65, 0.12);
+  border-radius: 12px;
+  padding: 12px 24px;
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.3s;
+  text-align: center;
+}
+
+.svc-modal-btn-secondary:hover {
+  border-color: rgba(57, 62, 65, 0.3);
+  color: #393E41;
+}
+
 /* ── Responsive ─────────────────────────────────────────────── */
 @media (max-width: 768px) {
   .svc-hero {
@@ -955,6 +1173,12 @@ body.svc-page .navbar-wrapper .brand-mark {
   .svc-hero-ctas .svc-btn-outline {
     width: 100%;
     text-align: center;
+  }
+
+  .svc-modal {
+    padding: 28px;
+    margin: 16px;
+    max-height: 85vh;
   }
 }
 

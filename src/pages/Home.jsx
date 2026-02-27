@@ -76,7 +76,7 @@ function Home() {
 
   return (
     <>
-      <section 
+      <section
         className="page-section"
         style={{
           background: '#393E41',
@@ -85,7 +85,7 @@ function Home() {
         }}
       >
         {/* Efectos decorativos de fondo */}
-        <div 
+        <div
           style={{
             position: 'absolute',
             top: '10%',
@@ -97,7 +97,7 @@ function Home() {
             pointerEvents: 'none'
           }}
         />
-        <div 
+        <div
           style={{
             position: 'absolute',
             bottom: '5%',
@@ -109,13 +109,13 @@ function Home() {
             pointerEvents: 'none'
           }}
         />
-        
+
         <div className="container" style={{ position: 'relative', zIndex: 1 }}>
-          
-          <h1 
+
+          <h1
             className="my-6 max-w-[820px] leading-[1.15]"
             style={{
-              fontFamily: "'Inter', sans-serif",
+              fontFamily: "var(--font-heading)",
               fontWeight: '800',
               fontSize: 'clamp(2rem, 1.3rem + 2.5vw, 3.25rem)',
               letterSpacing: '-1.5px',
@@ -124,10 +124,10 @@ function Home() {
           >
             Construimos productos digitales empresariales con foco en resultados
           </h1>
-          <p 
+          <p
             className="max-w-[700px] m-0"
             style={{
-              fontFamily: "'DM Sans', sans-serif",
+              fontFamily: "var(--font-body)",
               fontSize: 'clamp(16px, 2vw, 20px)',
               lineHeight: '1.7',
               letterSpacing: '0.01em',
@@ -156,7 +156,7 @@ function Home() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {featuredServices.map((service) => (
-              <Card 
+              <Card
                 key={service.id}
                 className="group relative overflow-hidden transition-all duration-300 hover:scale-105 hover:shadow-2xl"
                 style={{
@@ -164,14 +164,14 @@ function Home() {
                   borderColor: `${service.color}30`,
                 }}
               >
-                <div 
+                <div
                   className="absolute top-0 right-0 w-32 h-32 rounded-full blur-3xl opacity-0 group-hover:opacity-20 transition-opacity duration-500"
                   style={{ background: service.color }}
                 />
-                
-                <div 
+
+                <div
                   className="inline-flex items-center justify-center w-16 h-16 rounded-xl mb-4 transition-transform duration-300 group-hover:scale-110"
-                  style={{ 
+                  style={{
                     background: `${service.color}15`,
                     color: service.color,
                   }}
@@ -183,21 +183,21 @@ function Home() {
                   )}
                 </div>
 
-                <h3 
+                <h3
                   className="transition-colors duration-300 group-hover:text-[var(--color-primary)]"
-                  style={{ 
+                  style={{
                     fontSize: '1.35rem',
                     fontWeight: '700',
                     lineHeight: '1.35',
                     marginBottom: '0.75rem',
                     letterSpacing: '-0.02em',
-                    fontFamily: "'DM Sans', sans-serif"
+                    fontFamily: "var(--font-body)"
                   }}
                 >
                   {service.title}
                 </h3>
-                
-                <p 
+
+                <p
                   className="muted"
                   style={{
                     fontSize: '0.9375rem',
@@ -209,11 +209,11 @@ function Home() {
                 >
                   {service.description}
                 </p>
-                
+
                 <ul className="space-y-2.5" style={{ paddingLeft: 0, listStyle: 'none' }}>
                   {service.features.slice(0, 2).map((feature) => (
-                    <li 
-                      key={feature} 
+                    <li
+                      key={feature}
                       className="flex items-start gap-3"
                       style={{
                         fontSize: '0.875rem',
@@ -222,9 +222,9 @@ function Home() {
                         letterSpacing: '0.005em'
                       }}
                     >
-                      <span 
+                      <span
                         className="inline-block w-1.5 h-1.5 rounded-full flex-shrink-0"
-                        style={{ 
+                        style={{
                           background: service.color,
                           marginTop: '0.5rem'
                         }}
@@ -234,9 +234,9 @@ function Home() {
                   ))}
                 </ul>
 
-                <div 
+                <div
                   className="mt-6 pt-4 border-t inline-flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-2 group-hover:translate-y-0"
-                  style={{ 
+                  style={{
                     borderColor: `${service.color}20`,
                     color: service.color,
                     fontSize: '0.875rem',
@@ -271,15 +271,15 @@ function Home() {
               >
                 {/* Imagen del proyecto con badges */}
                 <div className="h-48 relative overflow-hidden">
-                  <img 
-                    src={project.demoUrl} 
+                  <img
+                    src={project.demoUrl}
                     alt={project.name}
                     className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
-                  
+
                   <div className="absolute bottom-4 left-4 right-4 flex items-center justify-between z-10">
-                    <span 
+                    <span
                       className="text-xs font-bold px-3 py-1.5 rounded-full shadow-lg"
                       style={{
                         fontFamily: "'Inter', sans-serif",
@@ -291,12 +291,12 @@ function Home() {
                     >
                       {project.category}
                     </span>
-                    <span 
+                    <span
                       className="text-xs font-bold px-3 py-1.5 rounded-full shadow-lg"
                       style={{
                         fontFamily: "'Inter', sans-serif",
-                        background: project.status === 'Completado' ? '#44BBA4' : 
-                                   project.status === 'En progreso' ? '#3F88C5' : '#393E41',
+                        background: project.status === 'Completado' ? '#44BBA4' :
+                          project.status === 'En progreso' ? '#3F88C5' : '#393E41',
                         color: 'white'
                       }}
                     >
@@ -307,10 +307,10 @@ function Home() {
 
                 {/* Contenido del proyecto */}
                 <div className="p-6">
-                  <h3 
+                  <h3
                     className="mb-3 group-hover:text-[#3F88C5] transition-colors"
                     style={{
-                      fontFamily: "'Inter', sans-serif",
+                      fontFamily: "var(--font-heading)",
                       fontWeight: '700',
                       fontSize: '1.35rem',
                       lineHeight: '1.25',
@@ -320,11 +320,11 @@ function Home() {
                   >
                     {project.name}
                   </h3>
-                  
-                  <p 
+
+                  <p
                     className="mb-4"
                     style={{
-                      fontFamily: "'DM Sans', sans-serif",
+                      fontFamily: "var(--font-body)",
                       fontSize: '0.875rem',
                       lineHeight: '1.65',
                       letterSpacing: '0.01em',
@@ -341,7 +341,7 @@ function Home() {
                         key={tech}
                         className="text-xs font-semibold px-3 py-1 bg-[#F6F7EB] text-[#393E41] rounded-md border border-[#393E41]/10"
                         style={{
-                          fontFamily: "'Inter', sans-serif",
+                          fontFamily: "var(--font-heading)",
                           letterSpacing: '0.02em'
                         }}
                       >
@@ -358,7 +358,7 @@ function Home() {
                       rel="noreferrer"
                       className="block text-center px-4 py-2.5 bg-[#44BBA4] text-white font-semibold rounded-lg hover:bg-[#36a890] transition-colors shadow-sm hover:shadow-md"
                       style={{
-                        fontFamily: "'Inter', sans-serif",
+                        fontFamily: "var(--font-heading)",
                         fontSize: '0.875rem',
                         letterSpacing: '0.02em'
                       }}
@@ -407,7 +407,7 @@ function Home() {
                     </svg>
                   </a>
                 </div>
-                <h3 
+                <h3
                   className="my-4 mb-3"
                   style={{
                     fontFamily: "'Inter', sans-serif",
@@ -419,7 +419,7 @@ function Home() {
                 >
                   {member.name}
                 </h3>
-                <p 
+                <p
                   className="m-0 mb-4 text-[var(--color-primary)]"
                   style={{
                     fontFamily: "'Inter', sans-serif",
@@ -430,7 +430,7 @@ function Home() {
                 >
                   {member.role}
                 </p>
-                <p 
+                <p
                   className="muted"
                   style={{
                     fontFamily: "'DM Sans', sans-serif",

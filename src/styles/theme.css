@@ -1,19 +1,47 @@
-﻿:root {
-  --color-bg: #F6F7EB;
-  --color-accent: #E94F37;
-  --color-text: #393E41;
-  --color-primary: #3F88C5;
-  --color-secondary: #44BBA4;
-  --color-surface: #FFFFFF;
+﻿/* ═══════════════════════════════════════════════════════════════
+   Design Tokens — Light (default) & Dark mode
+   Primary: #44BBA4 · Accent: #E94F37 · Secondary: #3F88C5
+   ═══════════════════════════════════════════════════════════════ */
 
+:root {
+  /* ── Brand Colors ────────────────────────────────────────── */
+  --color-primary: #44BBA4;
+  --color-accent: #E94F37;
+  --color-secondary: #3F88C5;
+
+  /* ── Light Mode (default) ────────────────────────────────── */
+  --color-bg: #F6F7EB;
+  --color-bg-alt: #EDEEE0;
+  --color-surface: rgba(0, 0, 0, 0.03);
+  --color-text: #393E41;
+  --color-text-muted: #6B7280;
+  --color-heading: #1F2937;
+  --color-border: rgba(0, 0, 0, 0.08);
+
+  /* ── Glass ───────────────────────────────────────────────── */
+  --glass-bg: rgba(255, 255, 255, 0.6);
+  --glass-border: rgba(0, 0, 0, 0.06);
+  --glass-blur: 16px;
+  --glass-bg-strong: rgba(255, 255, 255, 0.75);
+  --glass-border-strong: rgba(0, 0, 0, 0.1);
+
+  /* ── Hero / Section backgrounds ──────────────────────────── */
+  --color-hero-bg: #393E41;
+  --color-hero-text: #F6F7EB;
+  --color-hero-muted: rgba(246, 247, 235, 0.7);
+
+  /* ── Typography ──────────────────────────────────────────── */
   --font-heading: 'Inter', system-ui, -apple-system, sans-serif;
   --font-body: 'DM Sans', system-ui, -apple-system, sans-serif;
 
+  /* ── Radii ───────────────────────────────────────────────── */
   --radius-sm: 0.5rem;
   --radius-md: 0.875rem;
   --radius-lg: 1.25rem;
   --radius-xl: 1.5rem;
+  --radius-2xl: 2rem;
 
+  /* ── Spacing ─────────────────────────────────────────────── */
   --space-1: 0.25rem;
   --space-2: 0.5rem;
   --space-3: 0.75rem;
@@ -23,12 +51,14 @@
   --space-7: 3rem;
   --space-8: 4rem;
 
-  --shadow-sm: 0 6px 16px rgba(57, 62, 65, 0.08);
-  --shadow-md: 0 12px 28px rgba(57, 62, 65, 0.12);
-  --shadow-lg: 0 20px 40px rgba(57, 62, 65, 0.16);
-  --shadow-glow: 0 0 40px rgba(63, 136, 197, 0.15);
+  /* ── Shadows ─────────────────────────────────────────────── */
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.06);
+  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.08);
+  --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.12);
 
-  --container-width: 1160px;
+  /* ── Layout / Transitions ────────────────────────────────── */
+  --container-width: 1200px;
   --transition-fast: 160ms ease;
   --transition-smooth: 300ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-spring: 500ms cubic-bezier(0.34, 1.56, 0.64, 1);
 }

@@ -1,0 +1,27 @@
+.section-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(57, 62, 65, 0.07);
+    border: 1px solid rgba(57, 62, 65, 0.12);
+    border-radius: 100px;
+    padding: 6px 18px;
+    margin-bottom: 20px;
+}
+
+.section-label-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    display: inline-block;
+    flex-shrink: 0;
+}
+
+.section-label-text {
+    font-family: 'Inter', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--color-heading);
+}

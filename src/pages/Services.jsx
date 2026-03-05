@@ -163,21 +163,7 @@ const SERVICE_ICONS = {
 const PROCESS_ICONS = [IconSearch, IconBlueprint, IconRocket, IconChart];
 
 /* ─── Hook: Intersection Observer ────────────────────────── */
-function useInView(threshold = 0.15) {
-  const ref = useRef(null);
-  const [inView, setInView] = useState(false);
-  useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-    const obs = new IntersectionObserver(
-      ([e]) => { if (e.isIntersecting) setInView(true); },
-      { threshold }
-    );
-    obs.observe(el);
-    return () => obs.disconnect();
-  }, [threshold]);
-  return [ref, inView];
-}
+import useInView from "../hooks/useInView";
 
 /* ─── Componente: ServiceDetailModal ─────────────────────── */
 function ServiceDetailModal({ service, onClose }) {

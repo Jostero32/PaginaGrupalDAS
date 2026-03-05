@@ -1,0 +1,244 @@
+/* ─── Team Card Styles ─────────────────────────────────── */
+
+.team-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  background: white;
+  border-radius: 1rem;
+  overflow: hidden;
+  cursor: pointer;
+  border: 1px solid rgba(57, 62, 65, 0.08);
+  transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+  box-shadow: 0 2px 8px rgba(57, 62, 65, 0.06);
+}
+
+.team-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 20px 40px rgba(57, 62, 65, 0.12), 0 0 1px rgba(0, 0, 0, 0.05);
+  border-color: rgba(63, 136, 197, 0.15);
+}
+
+/* Background Gradient */
+.team-card-bg-gradient {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 120px;
+  background: linear-gradient(135deg, rgba(63, 136, 197, 0.08), rgba(68, 187, 164, 0.06));
+  pointer-events: none;
+}
+
+/* Image Container */
+.team-card-image-container {
+  position: relative;
+  height: 260px;
+  overflow: hidden;
+  background: linear-gradient(135deg, rgba(63, 136, 197, 0.1), rgba(68, 187, 164, 0.1));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.team-card-image {
+  width: 90%;
+  height: 90%;
+  object-fit: contain;
+  transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.team-card:hover .team-card-image {
+  transform: scale(1.08);
+}
+
+/* Overlay on Hover */
+.team-card-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.team-card:hover .team-card-overlay {
+  opacity: 1;
+}
+
+.team-card-cta {
+  color: white;
+  font-weight: 600;
+  font-size: 0.9375rem;
+  letter-spacing: 0.02em;
+  padding: 0.75rem 1.5rem;
+  border: 2px solid white;
+  border-radius: 0.5rem;
+  transition: all 0.2s ease;
+}
+
+.team-card:hover .team-card-cta {
+  background: white;
+  color: var(--color-primary);
+}
+
+/* GitHub Badge */
+.team-card-github-badge {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  width: 2.5rem;
+  height: 2.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: white;
+  border: none;
+  border-radius: 50%;
+  color: #333;
+  z-index: 10;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  text-decoration: none;
+}
+
+.team-card-github-badge:hover {
+  transform: scale(1.1) rotate(-10deg);
+  background: #333;
+  color: white;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+}
+
+/* Content */
+.team-card-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 1.75rem;
+  gap: 0.75rem;
+  z-index: 2;
+}
+
+.team-card-name {
+  font-size: 1.25rem;
+  font-weight: 700;
+  line-height: 1.3;
+  letter-spacing: -0.01em;
+  color: var(--color-text);
+  margin: 0;
+  transition: color 0.2s ease;
+}
+
+.team-card:hover .team-card-name {
+  color: var(--color-primary);
+}
+
+.team-card-role {
+  font-size: 0.9375rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  color: var(--color-primary);
+  margin: 0;
+}
+
+.team-card-bio {
+  font-size: 0.875rem;
+  line-height: 1.6;
+  color: rgba(57, 62, 65, 0.75);
+  margin: 0;
+  flex-grow: 1;
+  transition: color 0.2s ease;
+}
+
+.team-card:hover .team-card-bio {
+  color: rgba(57, 62, 65, 0.85);
+}
+
+/* Bottom Accent Line */
+.team-card-accent {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--color-primary), var(--color-secondary));
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.team-card:hover .team-card-accent {
+  transform: scaleX(1);
+}
+
+/* Responsive Grid */
+@media (max-width: 1024px) {
+  .team-card {
+    border-radius: 0.875rem;
+  }
+
+  .team-card-image-container {
+    height: 180px;
+  }
+
+  .team-card-content {
+    padding: 1.5rem;
+  }
+
+  .team-card-name {
+    font-size: 1.125rem;
+  }
+}
+
+@media (max-width: 640px) {
+  .team-card {
+    border-radius: 0.75rem;
+  }
+
+  .team-card-image-container {
+    height: 160px;
+  }
+
+  .team-card-content {
+    padding: 1.25rem;
+    gap: 0.5rem;
+  }
+
+  .team-card-name {
+    font-size: 1rem;
+  }
+
+  .team-card-role {
+    font-size: 0.875rem;
+  }
+
+  .team-card-bio {
+    font-size: 0.8125rem;
+    line-height: 1.5;
+  }
+
+  .team-card-github-badge {
+    width: 2.25rem;
+    height: 2.25rem;
+  }
+
+  .team-card-github-badge svg {
+    width: 16px;
+    height: 16px;
+  }
+}
+
+/* Accessibility */
+.team-card:focus-visible {
+  outline: 3px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+/* Dark Mode Support (if needed) */
+@media (prefers-color-scheme: dark) {
+  .team-card {
+    background: rgba(255, 255, 255, 0.95);
+  }
+}

@@ -288,6 +288,159 @@ function AboutGroup() {
           </ol>
         </div>
       </section>
+
+      {/* --- Replicate some of the cards from Home page --- */}
+      <section ref={servicesRef} className="page-section">
+        <div className="container">
+          <Card className="mb-8">
+            <div className="inline-flex items-center gap-2 bg-[#44BBA4] text-white px-4 py-2 rounded-full text-xs font-bold uppercase tracking-[0.2em] mb-5">
+              Servicios destacados
+            </div>
+            <p className="muted text-lg m-0">
+              Tres lineas de servicio para acelerar roadmap, calidad técnica y escalabilidad.
+            </p>
+          </Card>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {services
+              .filter((service) => featuredServiceIds.includes(service.id))
+              .map((service) => (
+                <Card
+                  key={service.id}
+                  className="group relative overflow-hidden transition-all duration-300 hover:scale-105 hover:shadow-2xl"
+                  style={{
+                    background: `linear-gradient(135deg, ${service.color}08 0%, transparent 100%)`,
+                    borderColor: `${service.color}30`,
+                  }}
+                >
+                  <div
+                    className="absolute top-0 right-0 w-32 h-32 rounded-full blur-3xl opacity-0 group-hover:opacity-20 transition-opacity duration-500"
+                    style={{ background: service.color }}
+                  />
+
+                  <div
+                    className="inline-flex items-center justify-center w-16 h-16 rounded-xl mb-4 transition-transform duration-300 group-hover:scale-110"
+                    style={{
+                      background: `${service.color}15`,
+                      color: service.color,
+                    }}
+                  >
+                    {SERVICE_ICONS[service.id] && (
+                      <div style={{ width: '36px', height: '36px' }}>
+                        {SERVICE_ICONS[service.id]({ color: service.color })}
+                      </div>
+                    )}
+                  </div>
+
+                  <h3
+                    className="transition-colors duration-300 group-hover:text-[var(--color-primary)]"
+                    style={{
+                      fontSize: '1.35rem',
+                      fontWeight: '700',
+                      lineHeight: '1.35',
+                      marginBottom: '0.75rem',
+                      letterSpacing: '-0.02em',
+                      fontFamily: "'DM Sans', sans-serif",
+                    }}
+                  >
+                    {service.title}
+                  </h3>
+
+                  <p
+                    className="muted"
+                    style={{
+                      fontSize: '0.9375rem',
+                      lineHeight: '1.65',
+                      marginBottom: '1.5rem',
+                      fontWeight: '400',
+                      letterSpacing: '0.01em',
+                    }}
+                  >
+                    {service.description}
+                  </p>
+
+                  <ul className="space-y-2.5" style={{ paddingLeft: 0, listStyle: 'none' }}>
+                    {service.features.slice(0, 2).map((feature) => (
+                      <li
+                        key={feature}
+                        className="flex items-start gap-3"
+                        style={{
+                          fontSize: '0.875rem',
+                          lineHeight: '1.55',
+                          fontWeight: '500',
+                          letterSpacing: '0.005em',
+                        }}
+                      >
+                        <span
+                          className="inline-block w-1.5 h-1.5 rounded-full flex-shrink-0"
+                          style={{
+                            background: service.color,
+                            marginTop: '0.5rem',
+                          }}
+                        />
+                        <span>{feature}</span>
+                      </li>
+                    ))}
+                  </ul>
+
+                  <div
+                    className="mt-6 pt-4 border-t inline-flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-2 group-hover:translate-y-0"
+                    style={{
+                      borderColor: `${service.color}20`,
+                      color: service.color,
+                      fontSize: '0.875rem',
+                      fontWeight: '600',
+                      letterSpacing: '0.02em',
+                    }}
+                  >
+                    Ver más detalles
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                      <line x1="5" y1="12" x2="19" y2="12" />
+                      <polyline points="12 5 19 12 12 19" />
+                    </svg>
+                  </div>
+                </Card>
+              ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ─── Team Section: Premium Interactive Design ─────────────────────────────────── */}
+      <section ref={teamRef} className="page-section">
+        <div className="container">
+          <Card className="mb-8">
+            <div className="inline-flex items-center gap-2 bg-[#44BBA4] text-white px-4 py-2 rounded-full text-xs font-bold uppercase tracking-[0.2em] mb-5">
+              Nuestro equipo
+            </div>
+            <p className="muted text-lg m-0">
+              Profesionales multidisciplinarios que impulsan cada entrega con rigor y creatividad.
+            </p>
+          </Card>
+
+          {/* Responsive Grid: 3 columns desktop, 2 tablets, 1 mobile */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
+            {team.map((member) => (
+              <TeamCard
+                key={member.id}
+                member={member}
+                onCardClick={handleCardClick}
+              />
+            ))}
+          </div>
+
+          {/* Note for user interaction */}
+          <p className="text-center mt-10 text-sm text-gray-500">
+            Haz clic en cualquier tarjeta para ver el perfil completo y habilidades técnicas
+          </p>
+        </div>
+      </section>
+
+      {/* Modal for detailed team member view */}
+      <TeamModal
+        member={selectedMember}
+        isOpen={isModalOpen}
+        onClose={handleCloseModal}
+      />
     </div>
   );
 }

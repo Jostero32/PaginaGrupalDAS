@@ -1,7 +1,98 @@
+import { useRef, useState } from "react";
 import { FaFlask, FaBuilding, FaChartBar, FaVial, FaCog, FaClipboardList } from "react-icons/fa";
 import SectionLabel from "../components/ui/SectionLabel";
+import Card from "../components/ui/Card";
+import TeamCard from "../components/ui/TeamCard";
+import TeamModal from "../components/ui/TeamModal";
+import { featuredServiceIds, services } from "../data/services";
+import { team } from "../data/team";
 import usePageMeta from "../routes/usePageMeta";
 import useInView from "../hooks/useInView";
+
+function IconWeb({ color = "currentColor" }) {
+  return (
+    <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="24" cy="24" r="20" stroke={color} strokeWidth="2.5" opacity="0.2" />
+      <circle cx="24" cy="24" r="20" stroke={color} strokeWidth="2.5" strokeDasharray="6 4" />
+      <ellipse cx="24" cy="24" rx="10" ry="20" stroke={color} strokeWidth="2" />
+      <line x1="4" y1="24" x2="44" y2="24" stroke={color} strokeWidth="2" />
+      <line x1="24" y1="4" x2="24" y2="44" stroke={color} strokeWidth="2" />
+      <path d="M7 14h34M7 34h34" stroke={color} strokeWidth="1.5" opacity="0.5" />
+    </svg>
+  );
+}
+
+function IconBackoffice({ color = "currentColor" }) {
+  return (
+    <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <rect x="4" y="6" width="40" height="36" rx="3" stroke={color} strokeWidth="2.5" />
+      <line x1="4" y1="14" x2="44" y2="14" stroke={color} strokeWidth="2" />
+      <line x1="16" y1="14" x2="16" y2="42" stroke={color} strokeWidth="2" />
+      <rect x="7" y="18" width="6" height="3" rx="1" fill={color} opacity="0.3" />
+      <rect x="7" y="24" width="6" height="3" rx="1" fill={color} opacity="0.5" />
+      <rect x="7" y="30" width="6" height="3" rx="1" fill={color} opacity="0.3" />
+      <rect x="20" y="18" width="10" height="8" rx="2" stroke={color} strokeWidth="1.5" />
+      <rect x="33" y="18" width="8" height="8" rx="2" stroke={color} strokeWidth="1.5" />
+      <path d="M20 33h21" stroke={color} strokeWidth="1.5" opacity="0.4" />
+      <path d="M20 37h14" stroke={color} strokeWidth="1.5" opacity="0.3" />
+    </svg>
+  );
+}
+
+function IconDevOps({ color = "currentColor" }) {
+  return (
+    <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="24" cy="24" r="18" stroke={color} strokeWidth="2" strokeDasharray="4 3" opacity="0.3" />
+      <path d="M24 6a18 18 0 0 1 12.73 5.27" stroke={color} strokeWidth="2.5" strokeLinecap="round" />
+      <path d="M42 24a18 18 0 0 1-5.27 12.73" stroke={color} strokeWidth="2.5" strokeLinecap="round" />
+      <path d="M24 42a18 18 0 0 1-12.73-5.27" stroke={color} strokeWidth="2.5" strokeLinecap="round" />
+      <path d="M6 24a18 18 0 0 1 5.27-12.73" stroke={color} strokeWidth="2.5" strokeLinecap="round" />
+      <polygon points="36,10 39,14 35,14" fill={color} />
+      <polygon points="38,36 34,39 34,35" fill={color} />
+      <polygon points="12,38 9,34 13,34" fill={color} />
+      <polygon points="10,12 14,9 14,13" fill={color} />
+      <circle cx="24" cy="24" r="6" stroke={color} strokeWidth="2" />
+      <circle cx="24" cy="24" r="2" fill={color} />
+    </svg>
+  );
+}
+
+function IconFrontend({ color = "currentColor" }) {
+  return (
+    <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <rect x="4" y="6" width="40" height="30" rx="3" stroke={color} strokeWidth="2.5" />
+      <line x1="4" y1="14" x2="44" y2="14" stroke={color} strokeWidth="2" />
+      <circle cx="10" cy="10" r="1.5" fill={color} opacity="0.5" />
+      <circle cx="15" cy="10" r="1.5" fill={color} opacity="0.5" />
+      <circle cx="20" cy="10" r="1.5" fill={color} opacity="0.5" />
+      <path d="M14 22l-5 5 5 5" stroke={color} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M34 22l5 5-5 5" stroke={color} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+      <line x1="27" y1="20" x2="21" y2="34" stroke={color} strokeWidth="2" strokeLinecap="round" />
+      <line x1="18" y1="42" x2="30" y2="42" stroke={color} strokeWidth="2.5" strokeLinecap="round" />
+    </svg>
+  );
+}
+
+function IconMobile({ color = "currentColor" }) {
+  return (
+    <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <rect x="12" y="4" width="24" height="40" rx="4" stroke={color} strokeWidth="2.5" />
+      <line x1="12" y1="12" x2="36" y2="12" stroke={color} strokeWidth="2" />
+      <line x1="12" y1="36" x2="36" y2="36" stroke={color} strokeWidth="2" />
+      <circle cx="24" cy="40" r="2" fill={color} />
+      <rect x="18" y="18" width="12" height="6" rx="1.5" stroke={color} strokeWidth="1.5" opacity="0.6" />
+      <rect x="18" y="27" width="8" height="4" rx="1" stroke={color} strokeWidth="1.5" opacity="0.4" />
+    </svg>
+  );
+}
+
+const SERVICE_ICONS = {
+  'svc-1': IconWeb,
+  'svc-2': IconMobile,
+  'svc-3': IconFrontend,
+  'svc-4': IconBackoffice,
+  'svc-5': IconDevOps,
+};
 
 const values = [
   { id: "value-1", title: "Rigor Aplicado", description: "Convertimos investigación en decisiones concretas, con experimentos pequeños y evidencia medible antes de escalar." },
@@ -46,6 +137,21 @@ function AnimatedItem({ children, index = 0, style, className = '' }) {
 }
 
 function AboutGroup() {
+  const servicesRef = useRef(null);
+  const teamRef = useRef(null);
+  const [selectedMember, setSelectedMember] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const handleCardClick = (member) => {
+    setSelectedMember(member);
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+    setSelectedMember(null);
+  };
+
   usePageMeta("ARCM Solutions", "Conoce la historia, misión, visión y proceso de ARCM Solutions.");
 
   return (

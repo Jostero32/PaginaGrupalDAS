@@ -1,9 +1,7 @@
-﻿@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&display=swap');
-
-.btn {
+﻿.btn {
   border: none;
-  border-radius: var(--radius-sm);
-  font-family: 'Inter', sans-serif;
+  border-radius: var(--radius-md);
+  font-family: var(--font-heading);
   font-weight: 700;
   cursor: pointer;
   text-decoration: none;
@@ -12,11 +10,12 @@
   justify-content: center;
   gap: var(--space-2);
   letter-spacing: 0.02em;
-  transition: transform var(--transition-fast), box-shadow var(--transition-fast), background-color var(--transition-fast);
+  transition: all var(--transition-smooth);
+  position: relative;
 }
 
 .btn:hover {
-  transform: translateY(-1px);
+  transform: translateY(-2px);
 }
 
 .btn:active {
@@ -34,36 +33,53 @@
 }
 
 .btn-lg {
-  padding: 0.85rem 1.35rem;
+  padding: 0.85rem 1.5rem;
   font-size: 1rem;
 }
 
+/* ── Solid variants ───────────────────────────────────────── */
 .btn-primary {
-  background: var(--color-primary);
+  background: var(--color-accent);
   color: #fff;
-  box-shadow: var(--shadow-sm);
+  box-shadow: 0 4px 12px rgba(233, 79, 55, 0.25);
+}
+
+.btn-primary:hover {
+  box-shadow: 0 6px 20px rgba(233, 79, 55, 0.35);
+  background: #D13F25;
 }
 
 .btn-secondary {
   background: var(--color-secondary);
-  color: #10231f;
+  color: #fff;
+}
+
+.btn-secondary:hover {
+  box-shadow: 0 6px 20px rgba(63, 136, 197, 0.3);
 }
 
 .btn-accent,
 .btn-danger {
-  background: var(--color-accent);
+  background: var(--color-primary);
   color: #fff;
-}
-
-.btn-primary:hover {
-  background: #327ab7;
-}
-
-.btn-secondary:hover {
-  background: #36a890;
+  box-shadow: 0 4px 12px rgba(68, 187, 164, 0.25);
 }
 
 .btn-accent:hover,
 .btn-danger:hover {
-  background: #d7432c;
+  box-shadow: 0 6px 20px rgba(68, 187, 164, 0.35);
+  background: #3AA896;
+}
+
+/* ── Outline variant ──────────────────────────────────────── */
+.btn-outline {
+  background: transparent;
+  color: var(--color-text);
+  border: 1.5px solid var(--color-border);
+}
+
+.btn-outline:hover {
+  border-color: var(--color-primary);
+  color: var(--color-primary);
+  background: rgba(68, 187, 164, 0.06);
 }

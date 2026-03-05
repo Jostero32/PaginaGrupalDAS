@@ -1,5 +1,5 @@
 ﻿import { useState, useEffect, useRef } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { faqItems, services, STATS, PROCESS_STEPS } from "../data/services";
 import usePageMeta from "../routes/usePageMeta";
 import "./Services.css";
@@ -163,24 +163,87 @@ const SERVICE_ICONS = {
 const PROCESS_ICONS = [IconSearch, IconBlueprint, IconRocket, IconChart];
 
 /* ─── Hook: Intersection Observer ────────────────────────── */
-function useInView(threshold = 0.15) {
-  const ref = useRef(null);
-  const [inView, setInView] = useState(false);
+import useInView from "../hooks/useInView";
+
+/* ─── Componente: ServiceDetailModal ─────────────────────── */
+function ServiceDetailModal({ service, onClose }) {
+  const navigate = useNavigate();
+  const IconComp = SERVICE_ICONS[service.id];
+
+  // Close on Escape key
   useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-    const obs = new IntersectionObserver(
-      ([e]) => { if (e.isIntersecting) setInView(true); },
-      { threshold }
-    );
-    obs.observe(el);
-    return () => obs.disconnect();
-  }, [threshold]);
-  return [ref, inView];
+    const handleEsc = (e) => { if (e.key === 'Escape') onClose(); };
+    document.addEventListener('keydown', handleEsc);
+    document.body.style.overflow = 'hidden';
+    return () => {
+      document.removeEventListener('keydown', handleEsc);
+      document.body.style.overflow = '';
+    };
+  }, [onClose]);
+
+  const handleSolicitar = () => {
+    onClose();
+    navigate('/contactos');
+  };
+
+  return (
+    <div className="svc-modal-overlay" onClick={onClose}>
+      <div
+        className="svc-modal"
+        onClick={(e) => e.stopPropagation()}
+        role="dialog"
+        aria-modal="true"
+        aria-label={`Detalle de ${service.title}`}
+      >
+        {/* Close button */}
+        <button className="svc-modal-close" onClick={onClose} aria-label="Cerrar">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+            <line x1="18" y1="6" x2="6" y2="18" />
+            <line x1="6" y1="6" x2="18" y2="18" />
+          </svg>
+        </button>
+
+        {/* Header */}
+        <div className="svc-modal-header">
+          <div className="svc-modal-icon" style={{ background: `${service.color}15`, color: service.color }}>
+            {IconComp && <IconComp color={service.color} />}
+          </div>
+          <div>
+            <span className="svc-modal-tag" style={{ color: service.color }}>{service.tag}</span>
+            <h2 className="svc-modal-title">{service.title}</h2>
+          </div>
+        </div>
+
+        {/* Description */}
+        <p className="svc-modal-desc">{service.description}</p>
+
+        {/* Features */}
+        <div className="svc-modal-features-title">Características incluidas</div>
+        <ul className="svc-modal-features">
+          {service.features.map((f, i) => (
+            <li key={i}>
+              <span className="svc-modal-feature-dot" style={{ background: service.color }} />
+              {f}
+            </li>
+          ))}
+        </ul>
+
+        {/* CTA */}
+        <div className="svc-modal-actions">
+          <button className="svc-modal-btn-primary" onClick={handleSolicitar}>
+            Solicitar este servicio →
+          </button>
+          <button className="svc-modal-btn-secondary" onClick={onClose}>
+            Volver a servicios
+          </button>
+        </div>
+      </div>
+    </div>
+  );
 }
 
 /* ─── Componente: ServiceCard ────────────────────────────── */
-function ServiceCard({ service, index }) {
+function ServiceCard({ service, index, onExplore }) {
   const [ref, inView] = useInView(0.1);
   const [hovered, setHovered] = useState(false);
 
@@ -241,9 +304,14 @@ function ServiceCard({ service, index }) {
         ))}
       </ul>
 
-      <div className="svc-card-cta" style={{ color: ctaColor }}>
+      <button
+        className="svc-card-cta"
+        style={{ color: ctaColor }}
+        onClick={() => onExplore(service)}
+        type="button"
+      >
         Explorar servicio <span>→</span>
-      </div>
+      </button>
     </div>
   );
 }
@@ -339,6 +407,9 @@ function Services() {
   const [openFaq, setOpenFaq] = useState(0);
   const toggleFaq = (i) => setOpenFaq(openFaq === i ? -1 : i);
 
+  // Modal state for service detail popup
+  const [selectedService, setSelectedService] = useState(null);
+
   return (
     <div style={{ fontFamily: "'DM Sans', sans-serif", overflowX: "hidden" }}>
 
@@ -394,7 +465,7 @@ function Services() {
           {/* Breadcrumb */}
           <div className="svc-hero-breadcrumb" style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "32px" }}>
             <span style={{ color: "#F6F7EB60", fontSize: "13px", fontFamily: "'DM Sans', sans-serif" }}>
-              
+
             </span>
             <span style={{ color: "#3F88C5" }}>›</span>
             <span className="svc-breadcrumb-tag">Servicios</span>
@@ -495,7 +566,7 @@ function Services() {
           <div className="svc-grid">
             {services.map((service, index) => (
               <div key={service.id}>
-                <ServiceCard service={service} index={index} />
+                <ServiceCard service={service} index={index} onExplore={setSelectedService} />
               </div>
             ))}
           </div>
@@ -594,6 +665,14 @@ function Services() {
           </div>
         </div>
       </section>
+
+      {/* Service Detail Modal */}
+      {selectedService && (
+        <ServiceDetailModal
+          service={selectedService}
+          onClose={() => setSelectedService(null)}
+        />
+      )}
     </div>
   );
 }

@@ -2,6 +2,10 @@
   box-sizing: border-box;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 html,
 body,
 #root {
@@ -10,10 +14,22 @@ body,
 
 body {
   margin: 0;
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-family: var(--font-body);
   background: var(--color-bg);
   color: var(--color-text);
   line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-heading);
+  color: var(--color-heading);
 }
 
 a {
@@ -40,6 +56,7 @@ img {
 
 .page-section {
   padding: var(--space-8) 0;
+  position: relative;
 }
 
 .page-intro {
@@ -53,7 +70,7 @@ img {
 }
 
 .muted {
-  color: rgba(57, 62, 65, 0.8);
+  color: var(--color-text-muted);
 }
 
 .text-center {
@@ -70,6 +87,7 @@ img {
   color: var(--color-primary);
   font-weight: 600;
   text-decoration: none;
+  transition: color var(--transition-fast);
 }
 
 .link-inline:hover {
@@ -79,22 +97,45 @@ img {
 .placeholder-media {
   border-radius: var(--radius-md);
   min-height: 150px;
-  background: linear-gradient(135deg, rgba(63, 136, 197, 0.15), rgba(68, 187, 164, 0.2));
-  border: 1px solid rgba(57, 62, 65, 0.08);
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
 }
 
-@media (max-width: 760px) {
-  .page-section {
-    padding: var(--space-7) 0;
-  }
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
 }
 
-/* ─── Scroll Reveal Animations ───────────────────────────────────── */
+/* ── Glass Card Utility ───────────────────────────────────── */
+.glass-card {
+  background: var(--glass-bg);
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-xl);
+  transition: all var(--transition-smooth);
+}
+
+.glass-card:hover {
+  background: var(--glass-bg-strong);
+  border-color: var(--glass-border-strong);
+  box-shadow: var(--shadow-md);
+}
+
+/* ── Entrance Animations ──────────────────────────────────── */
 @keyframes fadeInUp {
   from {
     opacity: 0;
-    transform: translateY(30px);
+    transform: translateY(24px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -105,12 +146,227 @@ img {
   from {
     opacity: 0;
   }
+
   to {
     opacity: 1;
   }
 }
 
-/* Global Animation Utilities */
-.animate-fg-in-up {
-  animation: fadeInUp 0.6s ease-out;
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes float {
+
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+@keyframes pulse-glow {
+
+  0%,
+  100% {
+    opacity: 0.4;
+  }
+
+  50% {
+    opacity: 0.7;
+  }
+}
+
+.animate-fadeInUp {
+  animation: fadeInUp 0.5s ease forwards;
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.4s ease forwards;
+}
+
+.animate-scaleIn {
+  animation: scaleIn 0.4s ease forwards;
+}
+
+/* Staggered delays */
+.delay-1 {
+  animation-delay: 0.08s;
+  opacity: 0;
+}
+
+.delay-2 {
+  animation-delay: 0.16s;
+  opacity: 0;
+}
+
+.delay-3 {
+  animation-delay: 0.24s;
+  opacity: 0;
+}
+
+.delay-4 {
+  animation-delay: 0.32s;
+  opacity: 0;
+}
+
+.delay-5 {
+  animation-delay: 0.4s;
+  opacity: 0;
+}
+
+.delay-6 {
+  animation-delay: 0.48s;
+  opacity: 0;
+}
+
+/* ── Hero Section Utility ─────────────────────────────────── */
+.hero-section {
+  background: var(--color-hero-bg);
+  color: var(--color-hero-text);
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-section::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+  pointer-events: none;
+}
+
+/* ── Responsive ───────────────────────────────────────────── */
+@media (max-width: 760px) {
+  .page-section {
+    padding: var(--space-7) 0;
+  }
+}
+
+/* ── Shared Decorations ──────────────────────────────────── */
+.decor-blob {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.decor-ring {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  animation: spin-slow 25s linear infinite;
+  z-index: 0;
+}
+
+@keyframes spin-slow {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.dot-grid-bg {
+  background-image: radial-gradient(rgba(63, 136, 197, 0.09) 1px, transparent 1px);
+  background-size: 28px 28px;
+}
+
+/* ── Modern Card (Services-style) ────────────────────────── */
+.modern-card {
+  background: var(--color-bg);
+  border: 2px solid rgba(57, 62, 65, 0.06);
+  border-radius: 20px;
+  padding: 36px;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.4s ease;
+  box-shadow: 0 2px 20px rgba(0, 0, 0, 0.06);
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.modern-card:hover {
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.12);
+  transform: translateY(-4px);
+}
+
+.modern-card-dark {
+  background: #393E41;
+  border: 2px solid transparent;
+  border-radius: 20px;
+  padding: 36px;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.4s ease;
+  box-shadow: 0 2px 20px rgba(0, 0, 0, 0.08);
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.modern-card-dark:hover {
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+  transform: translateY(-4px);
+}
+
+/* Decorative circle on cards */
+.card-decor-circle {
+  position: absolute;
+  top: -30px;
+  right: -30px;
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  pointer-events: none;
+  transition: all 0.4s ease;
+}
+
+.modern-card:hover .card-decor-circle,
+.modern-card-dark:hover .card-decor-circle {
+  transform: scale(1.4);
+}
+
+/* ── Section Header (Services-style) ─────────────────────── */
+.section-header {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-bottom: 60px;
+}
+
+.section-header h2 {
+  font-family: 'Inter', sans-serif;
+  font-weight: 800;
+  font-size: clamp(30px, 4.5vw, 48px);
+  color: var(--color-heading);
+  line-height: 1.15;
+  letter-spacing: -1px;
+  max-width: 600px;
+}
+
+.section-header h2 .highlight {
+  color: #3F88C5;
+}
+
+.section-header p {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 16px;
+  color: var(--color-text-muted);
+  max-width: 500px;
+  line-height: 1.7;
 }

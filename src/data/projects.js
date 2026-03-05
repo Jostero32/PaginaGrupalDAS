@@ -24,7 +24,7 @@
   },
   {
     id: "pr-11",
-    name: "Movil Tienda web de segunda mano ",
+    name: "Móvil Tienda web de segunda mano ",
     category: "Mobile",
     description: "Aplicación móvil para la tienda web de segunda mano",
     stack: ["React Native", "JavaScript", "Mobile"],

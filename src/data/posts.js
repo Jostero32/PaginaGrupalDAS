@@ -1,3 +1,5 @@
+import { api } from '../api.js';
+
 const DEFAULT_POSTS = [
   {
     id: 'post-1',
@@ -133,16 +135,51 @@ const writePosts = (posts) => {
   }
 };
 
-export const getPosts = () => readPosts();
-
-export const addPost = (post) => {
-  const current = readPosts();
-  const updated = [post, ...current];
-  writePosts(updated);
-  return updated;
+export const getPosts = async () => {
+  try {
+    return await api.getPosts();
+  } catch (error) {
+    console.error('Failed to fetch posts from API, falling back to localStorage:', error);
+    return readPosts();
+  }
 };
 
-export const findPostBySlug = (slug) =>
-  readPosts().find((post) => post.slug === slug);
+export const addPost = async (post) => {
+  try {
+    const newPost = await api.createPost(post);
+    return newPost;
+  } catch (error) {
+    console.error('Failed to create post via API, falling back to localStorage:', error);
+    const current = readPosts();
+    const updated = [post, ...current];
+    writePosts(updated);
+    return updated;
+  }
+};
 
-export const posts = DEFAULT_POSTS;
+export const findPostBySlug = async (slug) => {
+  try {
+    return await api.getPostBySlug(slug);
+  } catch (error) {
+    console.error('Failed to fetch post from API, falling back to localStorage:', error);
+    return readPosts().find((post) => post.slug === slug);
+  }
+};
+
+export const updatePost = async (slug, updatedPost) => {
+  try {
+    return await api.updatePost(slug, updatedPost);
+  } catch (error) {
+    console.error('Failed to update post via API:', error);
+    throw error;
+  }
+};
+
+export const deletePost = async (slug) => {
+  try {
+    return await api.deletePost(slug);
+  } catch (error) {
+    console.error('Failed to delete post via API:', error);
+    throw error;
+  }
+};

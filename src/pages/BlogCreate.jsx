@@ -1,10 +1,10 @@
-import { useMemo, useState } from "react";
+import { useMemo, useState, useEffect, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Badge from "../components/ui/Badge";
 import Button from "../components/ui/Button";
 import Card from "../components/ui/Card";
 import { addPost, getPosts } from "../data/posts";
-import usePageMeta from "../routes/usePageMeta";
+import usePageMeta from "../routes/usePageMeta"; // uploads now go through the backend
 
 const todayIso = new Date().toISOString().slice(0, 10);
 
@@ -13,7 +13,6 @@ const initialValues = {
   excerpt: "",
   date: todayIso,
   tags: "",
-  cover: "",
   content: "",
 };
 
@@ -69,9 +68,70 @@ function BlogCreate() {
   const navigate = useNavigate();
   const [values, setValues] = useState(initialValues);
   const [errors, setErrors] = useState({});
+  const [existingPosts, setExistingPosts] = useState([]);
+  const [coverFile, setCoverFile] = useState(null);
+  const [coverPreview, setCoverPreview] = useState(null);
+  const [uploadError, setUploadError] = useState(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isDragging, setIsDragging] = useState(false);
+
+  useEffect(() => {
+    const loadPosts = async () => {
+      try {
+        const posts = await getPosts();
+        setExistingPosts(posts);
+      } catch (error) {
+        console.error('Error loading posts:', error);
+      }
+    };
+    loadPosts();
+  }, []);
 
   const tags = useMemo(() => parseTags(values.tags), [values.tags]);
   const content = useMemo(() => parseContent(values.content), [values.content]);
+
+  const fileInputRef = useRef(null);
+
+  const handleFileChange = (event) => {
+    const file = event.target.files && event.target.files[0];
+    processFile(file);
+  };
+
+  const processFile = (file) => {
+    if (!file || !file.type.startsWith('image/')) return;
+
+    setUploadError(null);
+    setCoverFile(file);
+
+    // Crear preview local
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      setCoverPreview(e.target.result);
+    };
+    reader.readAsDataURL(file);
+  };
+
+  const handleDragOver = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsDragging(true);
+  };
+
+  const handleDragLeave = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsDragging(false);
+  };
+
+  const handleDrop = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsDragging(false);
+
+    const file = e.dataTransfer.files && e.dataTransfer.files[0];
+    processFile(file);
+  };
+
 
   const previewTitle = values.title.trim() || "Titulo del articulo";
   const previewExcerpt =
@@ -79,7 +139,7 @@ function BlogCreate() {
     "Resume la idea principal en una o dos frases claras.";
   const previewDate = values.date || todayIso;
   const previewTags = tags.length > 0 ? tags : ["Estrategia", "Producto"];
-  const previewCover = values.cover.trim();
+  const previewCover = coverPreview;
   const previewContent =
     content.length > 0
       ? content.slice(0, 3)
@@ -94,7 +154,7 @@ function BlogCreate() {
     setValues((current) => ({ ...current, [name]: value }));
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
 
     const formErrors = validate(values);
@@ -102,24 +162,55 @@ function BlogCreate() {
     setErrors(formErrors);
 
     if (Object.keys(formErrors).length > 0) return;
+    if (!coverFile) {
+      setErrors((prev) => ({ ...prev, cover: "La imagen de portada es obligatoria." }));
+      return;
+    }
 
-    const existingSlugs = getPosts().map((post) => post.slug);
-    const uniqueSlug = buildUniqueSlug(baseSlug, existingSlugs);
-    const parsedContent = parseContent(values.content);
+    setIsSubmitting(true);
+    setUploadError(null);
 
-    const newPost = {
-      id: `post-${Date.now()}`,
-      slug: uniqueSlug,
-      title: values.title.trim(),
-      excerpt: values.excerpt.trim(),
-      date: values.date,
-      tags: tags.length > 0 ? tags : ["General"],
-      cover: values.cover.trim(),
-      content: parsedContent.length > 0 ? parsedContent : [values.content],
-    };
+    try {
+      let coverUrl = "";
 
-    addPost(newPost);
-    navigate(`/blog/${uniqueSlug}`);
+      // Subir imagen a Supabase
+      const formData = new FormData();
+      formData.append('image', coverFile);
+      const uploadRes = await fetch('http://localhost:3001/upload', {
+        method: 'POST',
+        body: formData,
+      });
+
+      if (!uploadRes.ok) {
+        throw new Error('Error al subir la imagen');
+      }
+
+      const uploadBody = await uploadRes.json();
+      coverUrl = uploadBody.url;
+
+      const existingSlugs = existingPosts.map((post) => post.slug);
+      const uniqueSlug = buildUniqueSlug(baseSlug, existingSlugs);
+      const parsedContent = parseContent(values.content);
+
+      const newPost = {
+        id: `post-${Date.now()}`,
+        slug: uniqueSlug,
+        title: values.title.trim(),
+        excerpt: values.excerpt.trim(),
+        date: values.date,
+        tags: tags.length > 0 ? tags : ["General"],
+        cover: coverUrl,
+        content: parsedContent.length > 0 ? parsedContent : [values.content],
+      };
+
+      await addPost(newPost);
+      navigate(`/blog/${uniqueSlug}`);
+    } catch (err) {
+      console.error('Error:', err);
+      setUploadError('Error al publicar el artículo');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -221,21 +312,87 @@ function BlogCreate() {
             </div>
 
             <div className="grid gap-3 mt-6">
-              <label htmlFor="cover" className="font-bold">
-                Link de imagen
+              <label className="font-bold">
+                Imagen de portada
               </label>
+              <div
+                className={`relative border-2 border-dashed rounded-[var(--radius-md)] p-6 text-center transition-colors ${
+                  isDragging
+                    ? 'border-[var(--color-primary)] bg-[rgba(63,136,197,0.1)]'
+                    : coverPreview
+                    ? 'border-[rgba(57,62,65,0.26)] bg-white'
+                    : 'border-[rgba(57,62,65,0.26)] bg-[rgba(57,62,65,0.02)] hover:border-[var(--color-primary)] hover:bg-[rgba(63,136,197,0.05)]'
+                }`}
+                onDragOver={handleDragOver}
+                onDragLeave={handleDragLeave}
+                onDrop={handleDrop}
+              >
+                {coverPreview ? (
+                  <div className="relative">
+                    <img
+                      src={coverPreview}
+                      alt="Preview de portada"
+                      className="w-full h-[200px] object-cover rounded-[var(--radius-sm)] mb-3"
+                    />
+                    <button
+                      type="button"
+                      className="text-[0.9rem] text-[var(--color-primary)] font-semibold hover:underline"
+                      onClick={() => fileInputRef.current?.click()}
+                    >
+                      Cambiar imagen
+                    </button>
+                  </div>
+                ) : (
+                  <div>
+                    <svg
+                      className="mx-auto mb-2"
+                      width="40"
+                      height="40"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                    >
+                      <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                      <polyline points="17 8 12 3 7 8" />
+                      <line x1="12" y1="3" x2="12" y2="15" />
+                    </svg>
+                    <p className="font-semibold text-[rgba(57,62,65,0.9)]">
+                      Arrastra tu imagen aquí
+                    </p>
+                    <p className="text-[0.9rem] text-[rgba(57,62,65,0.6)] mt-1">
+                      o{' '}
+                      <button
+                        type="button"
+                        className="text-[var(--color-primary)] font-semibold hover:underline"
+                        onClick={() => fileInputRef.current?.click()}
+                      >
+                        selecciona un archivo
+                      </button>
+                    </p>
+                  </div>
+                )}
+              </div>
               <input
-                id="cover"
-                name="cover"
-                type="url"
-                value={values.cover}
-                onChange={handleChange}
-                className="w-full font-[inherit] border border-[rgba(57,62,65,0.26)] rounded-[var(--radius-sm)] px-3 py-3 bg-white"
-                placeholder="https://images.unsplash.com/..."
+                ref={fileInputRef}
+                type="file"
+                accept="image/*"
+                className="hidden"
+                onChange={handleFileChange}
               />
               <span className="muted text-[0.85rem]">
-                Usa una URL publica para la portada del blog.
+                Formatos soportados: JPG, PNG, WebP. Máx 5MB.
               </span>
+              {errors.cover && (
+                <span className="text-[#9b2915] text-[0.85rem]">
+                  {errors.cover}
+                </span>
+              )}
+              {uploadError && (
+                <span className="text-[#9b2915] text-[0.85rem]">
+                  {uploadError}
+                </span>
+              )}
             </div>
 
             <div className="grid gap-3 mt-6">
@@ -264,10 +421,10 @@ function BlogCreate() {
             </div>
 
             <div className="mt-8 flex flex-wrap gap-3">
-              <Button type="submit" variant="accent" size="md">
-                Publicar articulo
+              <Button type="submit" variant="accent" size="md" disabled={isSubmitting}>
+                {isSubmitting ? 'Publicando...' : 'Publicar articulo'}
               </Button>
-              <Button as={Link} to="/blog" variant="secondary" size="md">
+              <Button as={Link} to="/blog" variant="secondary" size="md" disabled={isSubmitting}>
                 Cancelar
               </Button>
             </div>

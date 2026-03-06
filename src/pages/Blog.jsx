@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import Badge from "../components/ui/Badge";
 import Button from "../components/ui/Button";
@@ -28,7 +29,24 @@ function AnimatedItem({ children, index = 0, style, className = '' }) {
 function Blog() {
   usePageMeta("Blog", "Blog con publicaciones de ejemplo y detalle por slug.");
 
-  const sortedPosts = [...getPosts()].sort((a, b) => (a.date < b.date ? 1 : -1));
+  const [posts, setPosts] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const loadPosts = async () => {
+      try {
+        const fetchedPosts = await getPosts();
+        setPosts(fetchedPosts);
+      } catch (error) {
+        console.error('Error loading posts:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    loadPosts();
+  }, []);
+
+  const sortedPosts = [...posts].sort((a, b) => (a.date < b.date ? 1 : -1));
   const tagCount = new Set(sortedPosts.flatMap((post) => post.tags || [])).size;
   const paragraphCount = sortedPosts.reduce((total, post) => total + (post.content?.length || 0), 0);
 
@@ -129,7 +147,13 @@ function Blog() {
             </div>
           </AnimatedItem>
 
-          {sortedPosts.length === 0 ? (
+          {loading ? (
+            <div className="modern-card" style={{ textAlign: 'center' }}>
+              <p style={{ color: 'var(--color-text-muted)', margin: 0 }}>
+                Cargando artículos...
+              </p>
+            </div>
+          ) : sortedPosts.length === 0 ? (
             <div className="modern-card" style={{ textAlign: 'center' }}>
               <p style={{ color: 'var(--color-text-muted)', margin: 0 }}>
                 Aún no hay artículos publicados. Crea el primero.

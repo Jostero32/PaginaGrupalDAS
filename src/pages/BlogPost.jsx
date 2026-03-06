@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 import Badge from "../components/ui/Badge";
 import Card from "../components/ui/Card";
@@ -6,7 +7,22 @@ import usePageMeta from "../routes/usePageMeta";
 
 function BlogPost() {
   const { slug } = useParams();
-  const post = findPostBySlug(slug);
+  const [post, setPost] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const loadPost = async () => {
+      try {
+        const fetchedPost = await findPostBySlug(slug);
+        setPost(fetchedPost);
+      } catch (error) {
+        console.error('Error loading post:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    loadPost();
+  }, [slug]);
 
   const formatDate = (value) =>
     new Intl.DateTimeFormat("es-ES", {
@@ -19,6 +35,16 @@ function BlogPost() {
     post ? post.title : "Post no encontrado",
     post ? post.excerpt : "El articulo solicitado no existe en el blog.",
   );
+
+  if (loading) {
+    return (
+      <section className="page-section">
+        <div className="container text-center">
+          <h1>Cargando artículo...</h1>
+        </div>
+      </section>
+    );
+  }
 
   if (!post) {
     return (

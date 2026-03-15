@@ -103,11 +103,6 @@
   border-color: var(--color-primary);
 }
 
-/* ── CTA Button ────────────────────────────────────────────── */
-.nav-cta {
-  /* inherits btn styles */
-}
-
 .navbar-right {
   display: flex;
   align-items: center;

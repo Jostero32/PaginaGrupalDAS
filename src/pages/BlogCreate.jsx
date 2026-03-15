@@ -416,7 +416,7 @@ function BlogCreate() {
       if (coverFile) {
         const formData = new FormData();
         formData.append('image', coverFile);
-        const uploadRes = await fetch(`${import.meta.env.VITE_UPLOAD_URL || 'http://localhost:3001'}/upload`, {
+        const uploadRes = await fetch(`${import.meta.env.VITE_UPLOAD_URL}/upload`, {
           method: 'POST',
           body: formData,
         });

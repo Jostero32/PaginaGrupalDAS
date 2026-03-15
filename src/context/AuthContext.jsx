@@ -3,7 +3,7 @@ import { createContext, useContext, useMemo, useState } from "react";
 const AUTH_STORAGE_KEY = "arcm_editor_session";
 
 const COMPANY_CREDENTIALS = {
-  email: "editor@arcm.com",
+  email: "company@arcm.com",
   password: "ARCM2026",
   name: "Editor ARCM",
 };

@@ -63,7 +63,7 @@ export const api = {
 
 // Image upload utility - Reutilizable para cualquier contexto
 export const uploadImage = async (file) => {
-  const UPLOAD_URL = import.meta.env.VITE_UPLOAD_URL || 'http://localhost:3001';
+  const UPLOAD_URL = import.meta.env.VITE_UPLOAD_URL || 'https://backendpaginadas.onrender.com';
   
   if (!file || !file.type.startsWith('image/')) {
     throw new Error('El archivo debe ser una imagen válida');

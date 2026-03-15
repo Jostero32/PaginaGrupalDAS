@@ -1,13 +1,16 @@
 import { useState, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
+import { FiEdit2 } from "react-icons/fi";
 import Badge from "../components/ui/Badge";
 import Card from "../components/ui/Card";
 import { findPostBySlug } from "../data/posts";
+import { useAuth } from "../context/AuthContext";
 import usePageMeta from "../routes/usePageMeta";
 import "./BlogContent.css";
 
 function BlogPost() {
   const { slug } = useParams();
+  const { isLoggedIn } = useAuth();
   const [post, setPost] = useState(null);
   const [loading, setLoading] = useState(true);
 
@@ -83,10 +86,21 @@ function BlogPost() {
 
   return (
     <article className="page-section">
-      <div className="container max-w-[820px]">
-        <Link className="link-inline" to="/blog">
-          Volver al blog
-        </Link>
+      <div className="container">
+        <div className="flex flex-wrap items-center justify-between gap-3">
+          <Link className="link-inline" to="/blog">
+            Volver al blog
+          </Link>
+
+          {isLoggedIn ? (
+            <Link
+              to={`/blog/${slug}/editar`}
+              className="inline-flex items-center gap-2 rounded-[var(--radius-md)] border border-[var(--color-border)] bg-[var(--color-surface)] px-3 py-2 text-sm font-semibold no-underline transition hover:border-[var(--color-primary)] hover:text-[var(--color-primary)]"
+            >
+              <FiEdit2 /> Editar post
+            </Link>
+          ) : null}
+        </div>
 
         <Card className="mt-6">
           <div className="flex flex-wrap items-center gap-3 text-[0.95rem] text-[rgba(57,62,65,0.78)]">

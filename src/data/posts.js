@@ -178,8 +178,13 @@ export const updatePost = async (slug, updatedPost) => {
   try {
     return await api.updatePost(slug, updatedPost);
   } catch (error) {
-    console.error('Failed to update post via API:', error);
-    throw error;
+    console.error('Failed to update post via API, falling back to localStorage:', error);
+    const current = readPosts();
+    const updated = current.map((post) =>
+      post.slug === slug ? { ...post, ...updatedPost, slug: post.slug } : post,
+    );
+    writePosts(updated);
+    return updated.find((post) => post.slug === slug) || null;
   }
 };
 
@@ -187,7 +192,10 @@ export const deletePost = async (slug) => {
   try {
     return await api.deletePost(slug);
   } catch (error) {
-    console.error('Failed to delete post via API:', error);
-    throw error;
+    console.error('Failed to delete post via API, falling back to localStorage:', error);
+    const current = readPosts();
+    const updated = current.filter((post) => post.slug !== slug);
+    writePosts(updated);
+    return { ok: true };
   }
 };

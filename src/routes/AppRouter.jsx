@@ -9,6 +9,7 @@ import BlogCreate from '../pages/BlogCreate';
 import BlogPost from '../pages/BlogPost';
 import Contact from '../pages/Contact';
 import NotFound from '../pages/NotFound';
+import RequireAuth from './RequireAuth';
 
 function AppRouter() {
   return (
@@ -19,7 +20,22 @@ function AppRouter() {
         <Route path='servicios' element={<Services />} />
         <Route path='proyecto' element={<Projects />} />
         <Route path='blog' element={<Blog />} />
-        <Route path='blog/nuevo' element={<BlogCreate />} />
+        <Route
+          path='blog/nuevo'
+          element={(
+            <RequireAuth>
+              <BlogCreate />
+            </RequireAuth>
+          )}
+        />
+        <Route
+          path='blog/:slug/editar'
+          element={(
+            <RequireAuth>
+              <BlogCreate />
+            </RequireAuth>
+          )}
+        />
         <Route path='blog/:slug' element={<BlogPost />} />
         <Route path='contactos' element={<Contact />} />
         <Route path='*' element={<NotFound />} />

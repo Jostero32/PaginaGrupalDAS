@@ -1,6 +1,8 @@
 ﻿import { useState, useEffect } from "react";
 import { NavLink, useLocation } from "react-router-dom";
+import { FiLogIn, FiLogOut, FiUser } from "react-icons/fi";
 import Button from "../ui/Button";
+import { useAuth } from "../../context/AuthContext";
 import "./Navbar.css";
 import logoACRM from "../../assets/logoACRM.jpeg";
 
@@ -15,10 +17,16 @@ const navItems = [
 
 function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
+  const [showLoginModal, setShowLoginModal] = useState(false);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [loginError, setLoginError] = useState("");
   const location = useLocation();
+  const { isLoggedIn, user, login, logout } = useAuth();
 
   useEffect(() => {
     setIsOpen(false);
+    setShowLoginModal(false);
     window.scrollTo(0, 0);
   }, [location.pathname]);
 
@@ -27,6 +35,20 @@ function Navbar() {
     document.body.style.overflow = isOpen ? "hidden" : "";
     return () => { document.body.style.overflow = ""; };
   }, [isOpen]);
+
+  const handleSubmitLogin = (event) => {
+    event.preventDefault();
+    const result = login({ email, password });
+
+    if (!result.ok) {
+      setLoginError(result.message);
+      return;
+    }
+
+    setLoginError("");
+    setPassword("");
+    setShowLoginModal(false);
+  };
 
   return (
     <>
@@ -72,9 +94,31 @@ function Navbar() {
             ))}
           </ul>
 
-          <Button as={NavLink} to="/contactos" variant="accent" size="sm" className="nav-cta">
-            Hablemos
-          </Button>
+          <div className="navbar-right">
+            {isLoggedIn ? (
+              <button
+                type="button"
+                className="user-access-btn"
+                onClick={logout}
+                title="Cerrar sesión"
+              >
+                <FiLogOut /> {user?.name || "Editor"}
+              </button>
+            ) : (
+              <button
+                type="button"
+                className="user-access-btn"
+                onClick={() => setShowLoginModal(true)}
+                title="Iniciar sesión"
+              >
+                <FiUser /> Ingresar
+              </button>
+            )}
+
+            <Button as={NavLink} to="/contactos" variant="accent" size="sm" className="nav-cta">
+              Hablemos
+            </Button>
+          </div>
         </nav>
       </header>
 
@@ -111,11 +155,71 @@ function Navbar() {
         </ul>
 
         <div className="drawer-footer">
+          {isLoggedIn ? (
+            <button type="button" className="drawer-auth-btn" onClick={logout}>
+              <FiLogOut /> Cerrar sesión
+            </button>
+          ) : (
+            <button
+              type="button"
+              className="drawer-auth-btn"
+              onClick={() => {
+                setIsOpen(false);
+                setShowLoginModal(true);
+              }}
+            >
+              <FiLogIn /> Iniciar sesión
+            </button>
+          )}
           <Button as={NavLink} to="/contactos" variant="accent" size="md" onClick={() => setIsOpen(false)} style={{ width: '100%' }}>
             Hablemos
           </Button>
         </div>
       </aside>
+
+      {showLoginModal && (
+        <div className="auth-modal-backdrop" onClick={() => setShowLoginModal(false)}>
+          <div className="auth-modal" onClick={(event) => event.stopPropagation()}>
+            <h3>Acceso interno ARCM</h3>
+            <p className="auth-modal-subtitle">
+              Solo personal autorizado puede publicar, editar y eliminar posts.
+            </p>
+
+            <form onSubmit={handleSubmitLogin} className="auth-form">
+              <label htmlFor="auth-email">Correo</label>
+              <input
+                id="auth-email"
+                type="email"
+                value={email}
+                onChange={(event) => setEmail(event.target.value)}
+                placeholder="correo@empresa.com"
+                required
+              />
+
+              <label htmlFor="auth-password">Contraseña</label>
+              <input
+                id="auth-password"
+                type="password"
+                value={password}
+                onChange={(event) => setPassword(event.target.value)}
+                placeholder="••••••••"
+                required
+              />
+
+              {loginError && <p className="auth-error">{loginError}</p>}
+
+              <div className="auth-actions">
+                <button type="button" className="auth-cancel" onClick={() => setShowLoginModal(false)}>
+                  Cancelar
+                </button>
+                <button type="submit" className="auth-submit">
+                  Entrar
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
     </>
   );
 }

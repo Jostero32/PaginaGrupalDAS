@@ -1,5 +1,5 @@
 import { useMemo, useState, useEffect, useRef } from "react";
-import { Link as RouterLink, useNavigate } from "react-router-dom";
+import { Link as RouterLink, useNavigate, useParams } from "react-router-dom";
 import { useEditor, EditorContent } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import ImageExtension from "@tiptap/extension-image";
@@ -19,7 +19,7 @@ import Badge from "../components/ui/Badge";
 import Button from "../components/ui/Button";
 import Card from "../components/ui/Card";
 import SectionLabel from "../components/ui/SectionLabel";
-import { addPost, getPosts } from "../data/posts";
+import { addPost, findPostBySlug, getPosts, updatePost } from "../data/posts";
 import { uploadImage } from "../api";
 import usePageMeta from "../routes/usePageMeta";
 import useInView from "../hooks/useInView";
@@ -75,7 +75,13 @@ const validate = (values) => {
 };
 
 function BlogCreate() {
-  usePageMeta("Publicar nuevo blog", "Publica un nuevo blog.");
+  const { slug } = useParams();
+  const isEditMode = Boolean(slug);
+
+  usePageMeta(
+    isEditMode ? "Editar artículo" : "Publicar nuevo blog",
+    isEditMode ? "Edita un artículo existente." : "Publica un nuevo blog.",
+  );
 
   const navigate = useNavigate();
   const [values, setValues] = useState(initialValues);
@@ -92,8 +98,20 @@ function BlogCreate() {
   const [imageWidth, setImageWidth] = useState(600);
   const [imageHeight, setImageHeight] = useState(350);
   const [isImageDragging, setIsImageDragging] = useState(false);
+  const [isLoadingPost, setIsLoadingPost] = useState(isEditMode);
+  const [postNotFound, setPostNotFound] = useState(false);
+  const [editingPost, setEditingPost] = useState(null);
 
   const fileInputRef = useRef(null);
+  const didHydrateEditorRef = useRef(false);
+
+  const normalizeContentToHtml = (content) => {
+    if (typeof content === "string") return content;
+    if (Array.isArray(content)) {
+      return content.map((paragraph) => `<p>${paragraph}</p>`).join("");
+    }
+    return "";
+  };
 
   useEffect(() => {
     const loadPosts = async () => {
@@ -106,6 +124,55 @@ function BlogCreate() {
     };
     loadPosts();
   }, []);
+
+  useEffect(() => {
+    if (!isEditMode) return;
+
+    let cancelled = false;
+
+    const loadPost = async () => {
+      setIsLoadingPost(true);
+      try {
+        const post = await findPostBySlug(slug);
+        if (!post || cancelled) {
+          if (!cancelled) {
+            setPostNotFound(true);
+          }
+          return;
+        }
+
+        setEditingPost(post);
+        setPostNotFound(false);
+        didHydrateEditorRef.current = false;
+
+        setValues({
+          title: post.title || "",
+          excerpt: post.excerpt || "",
+          date: post.date || todayIso,
+          tags: Array.isArray(post.tags) ? post.tags.join(", ") : "",
+          content: normalizeContentToHtml(post.content),
+        });
+
+        if (post.cover) {
+          setCoverPreview(post.cover);
+        }
+      } catch (error) {
+        if (!cancelled) {
+          setPostNotFound(true);
+        }
+      } finally {
+        if (!cancelled) {
+          setIsLoadingPost(false);
+        }
+      }
+    };
+
+    loadPost();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [isEditMode, slug]);
 
   // Editor con Tiptap
   const editor = useEditor({
@@ -157,6 +224,16 @@ function BlogCreate() {
       },
     },
   });
+
+  useEffect(() => {
+    if (!editor) return;
+    if (!isEditMode) return;
+    if (isLoadingPost || postNotFound) return;
+    if (didHydrateEditorRef.current) return;
+
+    editor.commands.setContent(values.content || "", false);
+    didHydrateEditorRef.current = true;
+  }, [editor, isEditMode, isLoadingPost, postNotFound, values.content]);
 
   const tags = useMemo(() => parseTags(values.tags), [values.tags]);
 
@@ -325,7 +402,7 @@ function BlogCreate() {
     setErrors(formErrors);
 
     if (Object.keys(formErrors).length > 0) return;
-    if (!coverFile) {
+    if (!coverFile && !coverPreview) {
       setErrors((prev) => ({ ...prev, cover: "La imagen de portada es obligatoria." }));
       return;
     }
@@ -334,25 +411,43 @@ function BlogCreate() {
     setUploadError(null);
 
     try {
-      let coverUrl = "";
+      let coverUrl = coverPreview || "";
 
-      // Subir imagen de portada
-      const formData = new FormData();
-      formData.append('image', coverFile);
-      const uploadRes = await fetch(`${import.meta.env.VITE_UPLOAD_URL || 'http://localhost:3001'}/upload`, {
-        method: 'POST',
-        body: formData,
-      });
+      if (coverFile) {
+        const formData = new FormData();
+        formData.append('image', coverFile);
+        const uploadRes = await fetch(`${import.meta.env.VITE_UPLOAD_URL || 'http://localhost:3001'}/upload`, {
+          method: 'POST',
+          body: formData,
+        });
 
-      if (!uploadRes.ok) {
-        throw new Error('Error al subir la imagen');
+        if (!uploadRes.ok) {
+          throw new Error('Error al subir la imagen');
+        }
+
+        const uploadBody = await uploadRes.json();
+        coverUrl = uploadBody.url;
       }
-
-      const uploadBody = await uploadRes.json();
-      coverUrl = uploadBody.url;
 
       // Procesar imágenes del contenido (convertir base64 a URLs definitivas)
       const processedContent = await processContentImages(values.content);
+
+      if (isEditMode && editingPost) {
+        const updatedPost = {
+          ...editingPost,
+          title: values.title.trim(),
+          excerpt: values.excerpt.trim(),
+          date: values.date,
+          tags: tags.length > 0 ? tags : ["General"],
+          cover: coverUrl,
+          content: processedContent,
+          category: tags.length > 0 ? tags[0] : editingPost.category || "Blog",
+        };
+
+        await updatePost(editingPost.slug, updatedPost);
+        navigate(`/blog/${editingPost.slug}`);
+        return;
+      }
 
       const existingSlugs = existingPosts.map((post) => post.slug);
       const uniqueSlug = buildUniqueSlug(baseSlug, existingSlugs);
@@ -381,6 +476,30 @@ function BlogCreate() {
     }
   };
 
+  if (isLoadingPost) {
+    return (
+      <section className="page-section">
+        <div className="container text-center">
+          <h1>Cargando artículo...</h1>
+        </div>
+      </section>
+    );
+  }
+
+  if (postNotFound) {
+    return (
+      <section className="page-section">
+        <div className="container text-center">
+          <h1>Articulo no encontrado</h1>
+          <p className="muted">No se pudo cargar el contenido para editar.</p>
+          <RouterLink className="link-inline" to="/blog">
+            Volver al blog
+          </RouterLink>
+        </div>
+      </section>
+    );
+  }
+
   return (
     <section className="page-section bg-gradient-to-br from-[rgba(63,136,197,0.12)] via-[rgba(246,247,235,0.6)] to-[rgba(233,79,55,0.08)]">
       <div className="container">
@@ -390,9 +509,13 @@ function BlogCreate() {
 
         <div className="mt-6 max-w-[900px]">
           <h1 className="m-0 text-[clamp(2rem,1.5rem+1.8vw,3rem)] leading-[1.15]">
-            Publicar nuevo artículo
+            {isEditMode ? "Editar artículo" : "Publicar nuevo artículo"}
           </h1>
-          <p className="text-[rgba(57,62,65,0.7)] mt-2">Comparte tu conocimiento con la comunidad</p>
+          <p className="text-[rgba(57,62,65,0.7)] mt-2">
+            {isEditMode
+              ? "Actualiza el contenido completo del blog."
+              : "Comparte tu conocimiento con la comunidad"}
+          </p>
         </div>
 
         <form onSubmit={handleSubmit} noValidate className="mt-10 mb-10 max-w-[1000px] mx-auto">
@@ -772,11 +895,11 @@ function BlogCreate() {
             >
               {isSubmitting ? (
                 <>
-                  <FiLoader className="animate-spin" /> Publicando...
+                  <FiLoader className="animate-spin" /> {isEditMode ? "Guardando..." : "Publicando..."}
                 </>
               ) : (
                 <>
-                  <FiCheck /> Publicar Artículo
+                  <FiCheck /> {isEditMode ? "Guardar cambios" : "Publicar Artículo"}
                 </>
               )}
             </Button>

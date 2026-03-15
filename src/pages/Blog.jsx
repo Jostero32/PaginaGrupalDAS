@@ -1,9 +1,11 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import { FiEdit2, FiTrash2 } from "react-icons/fi";
 import Badge from "../components/ui/Badge";
 import Button from "../components/ui/Button";
 import SectionLabel from "../components/ui/SectionLabel";
-import { getPosts } from "../data/posts";
+import { deletePost, getPosts } from "../data/posts";
+import { useAuth } from "../context/AuthContext";
 import usePageMeta from "../routes/usePageMeta";
 import useInView from "../hooks/useInView";
 
@@ -31,6 +33,7 @@ function Blog() {
 
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
+  const { isLoggedIn } = useAuth();
 
   useEffect(() => {
     const loadPosts = async () => {
@@ -55,6 +58,18 @@ function Blog() {
 
   const sortedPosts = [...posts].sort((a, b) => (a.date < b.date ? 1 : -1));
   const tagCount = new Set(sortedPosts.flatMap((post) => post.tags || [])).size;
+
+  const handleDeletePost = async (post) => {
+    const confirmed = window.confirm(`Eliminar \"${post.title}\"? Esta accion no se puede deshacer.`);
+    if (!confirmed) return;
+
+    try {
+      await deletePost(post.slug);
+      setPosts((current) => current.filter((item) => item.slug !== post.slug));
+    } catch (error) {
+      window.alert("No se pudo eliminar el post.");
+    }
+  };
 
   return (
     <div style={{ minHeight: '100vh' }}>
@@ -121,9 +136,11 @@ function Blog() {
             </p>
 
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: '1rem', marginBottom: '2.5rem' }}>
-              <Button as={Link} to="/blog/nuevo" variant="accent" size="lg">
-                Publicar nuevo blog
-              </Button>
+              {isLoggedIn ? (
+                <Button as={Link} to="/blog/nuevo" variant="accent" size="lg">
+                  Publicar nuevo blog
+                </Button>
+              ) : null}
             </div>
 
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '1.5rem', maxWidth: '22rem' }}>
@@ -201,6 +218,47 @@ function Blog() {
                         <Badge key={tag} variant="secondary">{tag}</Badge>
                       ))}
                     </div>
+
+                    {isLoggedIn ? (
+                      <div style={{ display: 'flex', gap: '0.6rem', marginBottom: '0.45rem' }}>
+                        <Link
+                          to={`/blog/${post.slug}/editar`}
+                          style={{
+                            border: '1px solid var(--color-border)',
+                            background: 'var(--color-surface)',
+                            color: 'var(--color-heading)',
+                            borderRadius: 10,
+                            padding: '0.45rem 0.7rem',
+                            fontWeight: 700,
+                            display: 'inline-flex',
+                            alignItems: 'center',
+                            gap: 6,
+                            cursor: 'pointer',
+                            textDecoration: 'none',
+                          }}
+                        >
+                          <FiEdit2 /> Editar
+                        </Link>
+                        <button
+                          type="button"
+                          onClick={() => handleDeletePost(post)}
+                          style={{
+                            border: '1px solid rgba(155,41,21,0.3)',
+                            background: '#fff4f2',
+                            color: '#9b2915',
+                            borderRadius: 10,
+                            padding: '0.45rem 0.7rem',
+                            fontWeight: 700,
+                            display: 'inline-flex',
+                            alignItems: 'center',
+                            gap: 6,
+                            cursor: 'pointer',
+                          }}
+                        >
+                          <FiTrash2 /> Eliminar
+                        </button>
+                      </div>
+                    ) : null}
 
                     <Link
                       to={`/blog/${post.slug}`}

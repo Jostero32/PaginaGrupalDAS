@@ -3,6 +3,18 @@ import { Link as RouterLink, useNavigate } from "react-router-dom";
 import { useEditor, EditorContent } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import ImageExtension from "@tiptap/extension-image";
+import {
+  FiAlertCircle,
+  FiArrowLeft,
+  FiCamera,
+  FiCheck,
+  FiEye,
+  FiFolder,
+  FiImage,
+  FiInfo,
+  FiLoader,
+  FiX,
+} from "react-icons/fi";
 import Badge from "../components/ui/Badge";
 import Button from "../components/ui/Button";
 import Card from "../components/ui/Card";
@@ -373,7 +385,7 @@ function BlogCreate() {
     <section className="page-section bg-gradient-to-br from-[rgba(63,136,197,0.12)] via-[rgba(246,247,235,0.6)] to-[rgba(233,79,55,0.08)]">
       <div className="container">
         <RouterLink className="link-inline" to="/blog">
-          ← Volver al blog
+          <FiArrowLeft className="inline mr-1" /> Volver al blog
         </RouterLink>
 
         <div className="mt-6 max-w-[900px]">
@@ -411,7 +423,7 @@ function BlogCreate() {
                 />
                 {errors.title && (
                   <span className="text-[#9b2915] text-[0.85rem] flex items-center gap-1">
-                    ⚠️ {errors.title}
+                    <FiAlertCircle /> {errors.title}
                   </span>
                 )}
                 <p className="text-[0.85rem] text-[rgba(57,62,65,0.6)]">
@@ -436,7 +448,7 @@ function BlogCreate() {
                 />
                 {errors.excerpt && (
                   <span className="text-[#9b2915] text-[0.85rem] flex items-center gap-1">
-                    ⚠️ {errors.excerpt}
+                    <FiAlertCircle /> {errors.excerpt}
                   </span>
                 )}
               </div>
@@ -519,26 +531,28 @@ function BlogCreate() {
                     <div className="flex gap-2 justify-center">
                       <button
                         type="button"
-                        className="px-4 py-2 text-sm font-semibold text-white bg-[var(--color-primary)] rounded-[var(--radius-sm)] hover:opacity-90 transition"
+                        className="px-4 py-2 text-sm font-semibold text-white bg-[var(--color-primary)] rounded-[var(--radius-sm)] hover:opacity-90 transition inline-flex items-center gap-1"
                         onClick={() => fileInputRef.current?.click()}
                       >
-                        📁 Cambiar imagen
+                        <FiFolder /> Cambiar imagen
                       </button>
                       <button
                         type="button"
-                        className="px-4 py-2 text-sm font-semibold text-[#9b2915] bg-[#fff3e0] rounded-[var(--radius-sm)] hover:opacity-90 transition"
+                        className="px-4 py-2 text-sm font-semibold text-[#9b2915] bg-[#fff3e0] rounded-[var(--radius-sm)] hover:opacity-90 transition inline-flex items-center gap-1"
                         onClick={() => {
                           setCoverFile(null);
                           setCoverPreview(null);
                         }}
                       >
-                        ✕ Eliminar
+                        <FiX /> Eliminar
                       </button>
                     </div>
                   </div>
                 ) : (
                   <div className="py-8">
-                    <div className="text-4xl mb-3">🖼️</div>
+                    <div className="text-4xl mb-3 flex justify-center">
+                      <FiImage />
+                    </div>
                     <p className="font-semibold text-[rgba(57,62,65,0.9)] text-lg">
                       Arrastra tu imagen aquí
                     </p>
@@ -567,12 +581,12 @@ function BlogCreate() {
               />
               {errors.cover && (
                 <span className="text-[#9b2915] text-[0.85rem] flex items-center gap-1 mt-3">
-                  ⚠️ {errors.cover}
+                  <FiAlertCircle /> {errors.cover}
                 </span>
               )}
               {uploadError && (
                 <span className="text-[#9b2915] text-[0.85rem] flex items-center gap-1 mt-3">
-                  ⚠️ {uploadError}
+                  <FiAlertCircle /> {uploadError}
                 </span>
               )}
             </Card>
@@ -710,7 +724,7 @@ function BlogCreate() {
                         disabled={isUploadingImage}
                         className="w-9 h-9 rounded flex items-center justify-center text-sm font-bold bg-white text-[var(--color-text)] border border-[rgba(57,62,65,0.2)] hover:bg-[rgba(63,136,197,0.1)] transition disabled:opacity-50 disabled:cursor-not-allowed"
                       >
-                        {isUploadingImage ? '⏳' : '🖼️'}
+                        {isUploadingImage ? <FiLoader className="animate-spin" /> : <FiImage />}
                       </button>
                     </div>
 
@@ -739,7 +753,7 @@ function BlogCreate() {
                   </div>
                   {errors.content && (
                     <span className="text-[#9b2915] text-[0.85rem] flex items-center gap-1">
-                      ⚠️ {errors.content}
+                      <FiAlertCircle /> {errors.content}
                     </span>
                   )}
                 </div>
@@ -756,7 +770,15 @@ function BlogCreate() {
               disabled={isSubmitting}
               className="flex items-center gap-2"
             >
-              {isSubmitting ? '⏳ Publicando...' : '✓ Publicar Artículo'}
+              {isSubmitting ? (
+                <>
+                  <FiLoader className="animate-spin" /> Publicando...
+                </>
+              ) : (
+                <>
+                  <FiCheck /> Publicar Artículo
+                </>
+              )}
             </Button>
             <Button
               as={RouterLink}
@@ -766,7 +788,7 @@ function BlogCreate() {
               disabled={isSubmitting}
               className="flex items-center gap-2"
             >
-              ← Cancelar
+              <FiArrowLeft /> Cancelar
             </Button>
           </section>
 
@@ -774,7 +796,7 @@ function BlogCreate() {
           <section>
             <div className="flex items-center gap-2 mb-6">
               <div className="w-10 h-10 rounded-full bg-[rgba(63,136,197,0.3)] text-[var(--color-primary)] flex items-center justify-center font-bold text-sm">
-                👁️
+                <FiEye />
               </div>
               <h2 className="text-xl font-bold">Vista Previa</h2>
             </div>
@@ -805,7 +827,7 @@ function BlogCreate() {
                         className="w-full h-[240px] bg-gradient-to-br from-[rgba(63,136,197,0.1)] to-[rgba(233,79,55,0.1)] rounded-[var(--radius-md)] mb-6 flex items-center justify-center text-4xl"
                         aria-hidden="true"
                       >
-                        📸
+                        <FiCamera />
                       </div>
                     )}
                     <p className="text-[var(--color-primary)] font-bold text-[0.85rem] mb-2">
@@ -844,7 +866,7 @@ function BlogCreate() {
 
                     <div className="p-3 bg-[rgba(63,136,197,0.05)] rounded-[var(--radius-sm)] border border-[rgba(63,136,197,0.2)]">
                       <p className="text-[0.85rem] text-[rgba(57,62,65,0.7)]">
-                        <span className="font-semibold text-[var(--color-primary)]">💡 Consejo:</span> Escribe un título atractivo y un resumen claro para mejorar el engagement.
+                        <span className="font-semibold text-[var(--color-primary)] inline-flex items-center gap-1"><FiInfo /> Consejo:</span> Escribe un título atractivo y un resumen claro para mejorar el engagement.
                       </p>
                     </div>
                   </div>
@@ -883,7 +905,7 @@ function BlogCreate() {
                   >
                     {pendingImageUrl ? (
                       <div>
-                        <p className="text-sm text-[rgba(57,62,65,0.6)] mb-3">Imagen seleccionada ✓</p>
+                        <p className="text-sm text-[rgba(57,62,65,0.6)] mb-3 inline-flex items-center gap-1">Imagen seleccionada <FiCheck /></p>
                         <button
                           type="button"
                           className="text-sm font-semibold text-[var(--color-primary)] hover:underline"
@@ -903,7 +925,9 @@ function BlogCreate() {
                       </div>
                     ) : (
                       <div className="py-4">
-                        <div className="text-3xl mb-2">🖼️</div>
+                        <div className="text-3xl mb-2 flex justify-center">
+                          <FiImage />
+                        </div>
                         <p className="font-semibold text-[rgba(57,62,65,0.9)] text-sm">
                           Arrastra aquí
                         </p>
@@ -1022,7 +1046,7 @@ function BlogCreate() {
                   disabled={!pendingImageUrl}
                   onClick={handleConfirmImage}
                 >
-                  ✓ Insertar imagen
+                  <FiCheck /> Insertar imagen
                 </Button>
                 <Button
                   type="button"

@@ -57,7 +57,6 @@ const validate = (values) => {
 
   if (!values.title.trim()) errors.title = "El titulo es obligatorio.";
   if (!values.excerpt.trim()) errors.excerpt = "El resumen es obligatorio.";
-  if (!values.date.trim()) errors.date = "La fecha es obligatoria.";
   if (!values.content.trim()) errors.content = "El contenido es obligatorio.";
 
   return errors;
@@ -444,24 +443,17 @@ function BlogCreate() {
 
               <div className="grid grid-cols-2 gap-4">
                 <div className="grid gap-3">
-                  <label htmlFor="date" className="font-semibold text-[var(--color-heading)]">
-                    Fecha de publicación *
+                  <label className="font-semibold text-[var(--color-heading)]">
+                    Fecha de publicación
                   </label>
-                  <input
-                    id="date"
-                    name="date"
-                    type="date"
-                    value={values.date}
-                    onChange={handleChange}
-                    aria-invalid={Boolean(errors.date)}
-                    required
-                    className="w-full font-[inherit] border border-[rgba(57,62,65,0.26)] rounded-[var(--radius-sm)] px-4 py-2.5 bg-white focus:outline-none focus:border-[var(--color-primary)] focus:ring-2 focus:ring-[rgba(63,136,197,0.2)]"
-                  />
-                  {errors.date && (
-                    <span className="text-[#9b2915] text-[0.85rem] flex items-center gap-1">
-                      ⚠️ {errors.date}
-                    </span>
-                  )}
+                  <div className="w-full border border-[rgba(57,62,65,0.26)] rounded-[var(--radius-sm)] px-4 py-2.5 bg-white flex items-center text-[var(--color-text)] font-[inherit]">
+                    {new Intl.DateTimeFormat('es-ES', {
+                      day: '2-digit',
+                      month: 'long',
+                      year: 'numeric',
+                    }).format(new Date(values.date))}
+                  </div>
+                  <div className="h-5"></div>
                 </div>
 
                 <div className="grid gap-3">

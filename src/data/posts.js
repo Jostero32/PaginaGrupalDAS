@@ -96,8 +96,14 @@ const sanitizePosts = (value) => {
         typeof post.title !== 'string' ||
         typeof post.excerpt !== 'string' ||
         typeof post.date !== 'string' ||
-        !Array.isArray(post.content)
+        !post.content // Permite tanto string como array
       ) {
+        return null;
+      }
+
+      // Validar que content sea string o array
+      const isValidContent = typeof post.content === 'string' || Array.isArray(post.content);
+      if (!isValidContent) {
         return null;
       }
 
@@ -105,6 +111,8 @@ const sanitizePosts = (value) => {
         ...post,
         id: typeof post.id === 'string' ? post.id : `post-${post.slug}`,
         tags: Array.isArray(post.tags) ? post.tags : [],
+        // Asegurar que content se preserva tal como está (HTML string o array)
+        content: post.content,
       };
     })
     .filter(Boolean);

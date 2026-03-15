@@ -4,6 +4,7 @@ import Badge from "../components/ui/Badge";
 import Card from "../components/ui/Card";
 import { findPostBySlug } from "../data/posts";
 import usePageMeta from "../routes/usePageMeta";
+import "./BlogContent.css";
 
 function BlogPost() {
   const { slug } = useParams();
@@ -63,12 +64,20 @@ function BlogPost() {
   const author = post.author || "Equipo Nexus";
   const role = post.role || "Editorial";
   const category = post.category || post.tags?.[0] || "Blog";
+  
+  // Calcular tiempo de lectura (content puede ser string HTML o array)
+  const contentText = typeof post.content === 'string' 
+    ? post.content 
+    : Array.isArray(post.content) 
+      ? post.content.join(" ") 
+      : "";
+  
   const readingTime =
     post.readingTime ||
     `${Math.max(
       1,
       Math.round(
-        post.content.join(" ").split(/\s+/).filter(Boolean).length / 200,
+        contentText.split(/\s+/).filter(Boolean).length / 200,
       ),
     )} min`;
 
@@ -133,11 +142,18 @@ function BlogPost() {
             ))}
           </div>
 
-          <div className="[&>p]:m-0 [&>p+p]:mt-6 leading-[1.7] text-[1.02rem]">
-            {post.content.map((paragraph) => (
-              <p key={paragraph}>{paragraph}</p>
-            ))}
-          </div>
+          {/* Renderizar contenido - soporta tanto HTML como Array antiguo */}
+          {typeof post.content === 'string' ? (
+            <div className="blog-content [&>p]:m-0 [&>p+p]:mt-6 leading-[1.7] text-[1.02rem]">
+              <div dangerouslySetInnerHTML={{ __html: post.content }} />
+            </div>
+          ) : (
+            <div className="[&>p]:m-0 [&>p+p]:mt-6 leading-[1.7] text-[1.02rem]">
+              {post.content.map((paragraph) => (
+                <p key={paragraph}>{paragraph}</p>
+              ))}
+            </div>
+          )}
 
           {post.keyTakeaways?.length ? (
             <div className="mt-8 p-5 rounded-[var(--radius-md)] border border-[rgba(57,62,65,0.1)] bg-white shadow-[0_10px_24px_rgba(57,62,65,0.06)]">

@@ -1,4 +1,4 @@
-const API_BASE_URL = 'https://backendpaginadas.onrender.com';
+const API_BASE_URL = import.meta.env.VITE_API_URL || 'https://backendpaginadas.onrender.com';
 
 export const api = {
   // Get all posts
@@ -59,4 +59,28 @@ export const api = {
     }
     return response.json();
   },
+};
+
+// Image upload utility - Reutilizable para cualquier contexto
+export const uploadImage = async (file) => {
+  const UPLOAD_URL = import.meta.env.VITE_UPLOAD_URL || 'http://localhost:3001';
+  
+  if (!file || !file.type.startsWith('image/')) {
+    throw new Error('El archivo debe ser una imagen válida');
+  }
+
+  const formData = new FormData();
+  formData.append('image', file);
+
+  const response = await fetch(`${UPLOAD_URL}/upload`, {
+    method: 'POST',
+    body: formData,
+  });
+
+  if (!response.ok) {
+    throw new Error('Error al subir la imagen');
+  }
+
+  const data = await response.json();
+  return data.url;
 };

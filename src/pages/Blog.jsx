@@ -46,9 +46,15 @@ function Blog() {
     loadPosts();
   }, []);
 
+  const formatDate = (value) =>
+    new Intl.DateTimeFormat("es-ES", {
+      day: "2-digit",
+      month: "short",
+      year: "numeric",
+    }).format(new Date(value));
+
   const sortedPosts = [...posts].sort((a, b) => (a.date < b.date ? 1 : -1));
   const tagCount = new Set(sortedPosts.flatMap((post) => post.tags || [])).size;
-  const paragraphCount = sortedPosts.reduce((total, post) => total + (post.content?.length || 0), 0);
 
   return (
     <div style={{ minHeight: '100vh' }}>
@@ -124,7 +130,6 @@ function Blog() {
               {[
                 { value: sortedPosts.length, label: 'Artículos', color: '#44BBA4' },
                 { value: tagCount, label: 'Etiquetas', color: '#3F88C5' },
-                { value: paragraphCount, label: 'Párrafos', color: '#E94F37' },
               ].map((s) => (
                 <div key={s.label} style={{ textAlign: 'center' }}>
                   <div style={{ fontFamily: 'var(--font-heading)', fontWeight: 800, fontSize: '2rem', color: s.color }}>{s.value}</div>
@@ -186,7 +191,7 @@ function Blog() {
                       />
                     )}
                     <p style={{ margin: 0, fontWeight: 700, fontSize: '0.85rem', color: 'var(--color-primary)' }}>
-                      {post.date}
+                      {formatDate(post.date)}
                     </p>
                     <h3 style={{ color: 'var(--color-heading)', fontSize: '1.1rem', margin: '0.25rem 0', fontWeight: 700 }}>{post.title}</h3>
                     <p style={{ color: 'var(--color-text-muted)', fontSize: '0.9rem', lineHeight: 1.65, margin: 0 }}>{post.excerpt}</p>
